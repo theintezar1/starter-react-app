@@ -22,8 +22,8 @@ function Navbaar() {
     <Box sx={{width:"100%", display:"flex", justifyContent:"space-between", padding:"10px", bgcolor:"white", alignItems:"center"}}>
         <img style={{marginLeft:"20px"}} width={"60px"} src={pinchFit} alt="Pinch fit" />
       <Box sx={{display:"flex", alignItems:"center", gap:"20px", color:textColor, fontWeight:"600", marginRight:"20px"}}>
-      <Box> Meals </Box>
-      <Box> Profile </Box>
+      <Box onClick={()=>{navigate("/meal_list")}}> Meals </Box>
+      <Box onClick={()=>{navigate("/admin")}}> Admin </Box>
       <Box><Avatar onClick={handleLogout} alt="" src={pic} /></Box>
       </Box>
     </Box>

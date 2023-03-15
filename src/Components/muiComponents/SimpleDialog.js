@@ -19,6 +19,7 @@ import { Box } from "@mui/system";
 import { PrimaryColor, SecondaryColor } from "../../Color.Config";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import BallotIcon from '@mui/icons-material/Ballot';
+import { useNavigate } from "react-router";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
@@ -42,12 +43,6 @@ function SimpleDialog(props) {
   );
 }
 
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
-};
-
 export default function SimpleDialogDemo() {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
@@ -60,13 +55,14 @@ export default function SimpleDialogDemo() {
     setOpen(false);
     setSelectedValue(value);
   };
+  const navigate = useNavigate();
 
   return (
     <Box>
       <Button variant="contained" sx={{bgcolor:SecondaryColor, marginLeft:2, mt:1}} endIcon={<AddCircleOutlineIcon/>} onClick={handleClickOpen}>
         Add Meal
       </Button>
-      <Button variant="contained" sx={{bgcolor:SecondaryColor, marginLeft:2, mt:1}} endIcon={<BallotIcon/>} onClick={""}>
+      <Button onClick={()=>{navigate("/admin/all_meal")}} variant="contained" sx={{bgcolor:SecondaryColor, marginLeft:2, mt:1}} endIcon={<BallotIcon/>}>
         all meals
       </Button>
       <SimpleDialog open={open} setInput={setOpen} onClose={handleClose} />
