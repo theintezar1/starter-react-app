@@ -35,7 +35,7 @@ export default function RecipeReviewCard(props) {
     setExpanded(!expanded);
   };
 
-  const {name, allegrie, image, desc, ing1, ing2, mainIng} = props;
+  const {name, allegrie, image, desc, ing1, ing2, mainIng, medicalCond, deficency,date} = props;
 
   return (
     <Card sx={{ maxWidth: 345, width:"340px", minHeight:"410px" }}>
@@ -51,7 +51,7 @@ export default function RecipeReviewCard(props) {
           </IconButton>
         }
         title={name}
-        subheader={"March 01, 2023"}
+        subheader={date?date:"March 01, 2023"}
       />
       <CardMedia
         component="img"
@@ -86,17 +86,23 @@ export default function RecipeReviewCard(props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
+          <Typography>
             Main Ingdrients: {mainIng}
           </Typography>
-          <Typography paragraph>
+          <Typography>
             2nd Ingdrients: {ing1}
           </Typography>
-          <Typography paragraph>
+          <Typography>
             3nd Ingdrients: {ing2}
           </Typography>
           <Typography>
             Allergy: {allegrie}
+          </Typography>
+          <Typography>
+            Deficency: {deficency}
+          </Typography>
+          <Typography>
+            Medical: {medicalCond}
           </Typography>
         </CardContent>
       </Collapse>

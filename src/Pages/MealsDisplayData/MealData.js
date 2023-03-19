@@ -35,37 +35,35 @@ function MealData() {
 
   useEffect(() => {
     const GetFilteredMeal = async () => {
-      //   const q = query(
-      //     collection(db, "meal"),
-      //     where("Type", "==", await userData.dietary),
-      //     where("Spiciness", "==", await userData.foodPreference),
-      //    await userData.medical.length > 0
-      //       ? where("MedCond", "==", await userData.medical[0])
-      //       : where("allData", "==", "all"),
-      //    await userData.allegries.length > 0
-      //       ?where("Allergy", "==", await userData.allegries[0])
-      //       : where("allData", "==", "all")
-      //   );
-
+      const medicalArray = await userData.medical;
+      const deficencyArray = await userData.deficiency;
+      const foodPrefrence = await userData.foodPreference;
+      const diet = await userData.dietary;
+      const Allergies = await userData.allegries;
       const q = query(
         collection(db, "meal"),
-        userData.medical && userData.medical.length >0? where("medCond", "==", await userData.medical[0]):where("allData", "==", "all"),
-        where("spiciness", "==", await userData.foodPreference),
-        where("type", "==", await userData.dietary),
-        where("allergy", "not-in", await userData.allegries),
-        );
+        foodPrefrence? where("spiciness", "==", await userData.foodPreference):where("allData", "==", "all"),
+        diet? where("type", "==", await userData.dietary):where("allData", "==", "all"),
+        Allergies.length>0?where("allergy", "not-in", await userData.allegries):where("allData", "==", "all")
+      );
 
       
-      const querySnapshot = await getDocs(q);
-      setMealList(querySnapshot);
+      console.log("medical", medicalArray);
+      console.log("deficency", deficencyArray);
 
-      querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data().Dish);
-      });
-      const docsSnap = await getDocs(q);
-      docsSnap.forEach((doc) => {
-        console.log(doc.data());
-      });
+      const data = await getDocs(q);
+      const filterData = data.docs.map((doc) => ({
+        ...doc.data(),
+      }));
+
+      console.log("pre filter", filterData);
+      const filteredData = filterData.filter((item) =>
+      (medicalArray.length>0&&deficencyArray.length>0)?
+      !medicalArray.includes(item.medCond) && deficencyArray.includes(item.contains):
+      !medicalArray.includes(item.medCond) || deficencyArray.includes(item.contains)
+      );
+      console.log("after filter", filteredData);
+      setMealList(filteredData);
     };
     GetFilteredMeal();
   }, [
@@ -77,24 +75,7 @@ function MealData() {
   const results = [];
   return (
     <Box sx={{ bgcolor: PrimaryColor }}>
-      <Navbaar />
-      {mealList.forEach((doc, index) => {
-        results.push(
-          <Box key={index}>
-            <RecipeReviewCard
-              name={doc.data().dish}
-              allegrie={doc.data().allergy}
-              image = {doc.data().image}
-              desc= {doc.data().description}
-              ing1={doc.data().Ing1}
-              ing2={doc.data().Ing2}
-              mainIng = {doc.data().mainIng}
-
-            />
-            <hr />
-          </Box>
-        );
-      })}
+       <Navbaar />
       <Box
         sx={{
           display: "flex",
@@ -105,7 +86,24 @@ function MealData() {
           mt: "10px",
         }}
       >
-        {results}
+       
+        {mealList.map((doc, index) => (
+          <Box key={index}>
+            <RecipeReviewCard
+              name={doc.dish}
+              allegrie={doc.allergy}
+              medicalCond={doc.medCond}
+              deficency={doc.contains}
+              image={doc.image}
+              desc={doc.description}
+              ing1={doc.Ing1}
+              ing2={doc.Ing2}
+              mainIng={doc.mainIng}
+              date = {doc.date}
+            />
+            <hr />
+          </Box>
+        ))}
       </Box>
     </Box>
   );

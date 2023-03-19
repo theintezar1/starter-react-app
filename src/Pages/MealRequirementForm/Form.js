@@ -56,14 +56,16 @@ function Form() {
   function calculateBmi() {
     if(weight > 0 && height > 0){	
     var finalBmi = weight/(height/100*height/100)
+    let RoundBmi = Math.round(finalBmi)
+
     if(finalBmi < 18.5){
-   setBmi(`That you are too thin.${finalBmi}`)
+   setBmi(`That you are too thin.${RoundBmi}`)
     }
     if(finalBmi > 18.5 && finalBmi < 25){
-   setBmi(`That you are healthy.${finalBmi}`)
+   setBmi(`That you are healthy.${RoundBmi}`)
     }
     if(finalBmi > 25){
-   setBmi(`That you have overweight.${finalBmi}`)
+   setBmi(`That you have overweight.${RoundBmi}`)
     }
     }
     else{
@@ -112,7 +114,7 @@ function Form() {
         bmi,
         "date":today,
       });
-      alert("success");
+      alert("Show my meal plan");
       navigate("/meal_list")
       localStorage.setItem("userId", userId);
     } catch (error) {

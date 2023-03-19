@@ -59,7 +59,7 @@ function AddMealForm(props) {
        "date": today
       });
       alert("success");
-      setInput(false)
+      // setInput(false)
     } catch (error) {
       alert(error);
     }
