@@ -6,6 +6,7 @@ import { TextFields } from "../muiComponents/AllInputs";
 import {
   allegriesData,
   bmiData,
+  deficiencyData,
   dietaryData,
   foodpreferenceData,
   medicalData,
@@ -27,6 +28,7 @@ function AddMealForm(props) {
   const [image, setImage] = useState("");
   const [medCond, setMedCond] = useState("");
   const [description, setDescription] = useState("");
+  const [dificiency, setDificiency] = useState("");
 
   const {setInput} = props;
   var today = new Date();
@@ -45,6 +47,7 @@ function AddMealForm(props) {
        state,
        spiciness,
        allergy,
+       dificiency,
        dish,
        timeOfFood,
        bmi,
@@ -92,6 +95,12 @@ function AddMealForm(props) {
         selected={true}
         setInput={setMedCond}
         data={medicalData}
+      />
+      <TextFields
+        name="Deficiency"
+        selected={true}
+        setInput={setDificiency}
+        data={deficiencyData}
       />
       <TextFields name="Dish Name" setInput={setDish} />
       <TextFields name="BMI" setInput={setBmi} />

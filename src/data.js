@@ -15,7 +15,7 @@
 export const ageData = [ "<16", "16-32", "32-48", "48-60", ">60"]
 export const genderData = ["Male", "Female"]
 export const dietaryData = ["Vegetarian", "Non-Vegetarian"]
-export const medicalData = ["High Blood Pressure", "Diabetes", "Arthritis", "Asthma", "Migraines","High Chol","Nightshade", "Gluten Int", "Lactose Int", "Others"]
+export const medicalData = ["High Blood Pressure", "Diabetes", "Arthritis", "Asthma", "Migraines","High Chol","Nightshade", "Gluten", "Lactose", "Others"]
 export const deficiencyData = ["Iron", "Vitamin D", "Vitamin B12", "Iodine", "Calcium", "Others"]
 export const allegriesData = ["Lactose", "Gluten", "Soy", "Egg", "Seafood","Nuts", "Chicken", "Fish", "Others"]
 export const dailysleepData = ["<6", "6-8", ">8"]
