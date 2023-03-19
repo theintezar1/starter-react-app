@@ -28,7 +28,7 @@ function AddMealForm(props) {
   const [image, setImage] = useState("");
   const [medCond, setMedCond] = useState("");
   const [description, setDescription] = useState("");
-  const [dificiency, setDificiency] = useState("");
+  const [contains, setContains] = useState("");
 
   const {setInput} = props;
   var today = new Date();
@@ -47,7 +47,7 @@ function AddMealForm(props) {
        state,
        spiciness,
        allergy,
-       dificiency,
+       contains,
        dish,
        timeOfFood,
        bmi,
@@ -99,9 +99,10 @@ function AddMealForm(props) {
       <TextFields
         name="Deficiency"
         selected={true}
-        setInput={setDificiency}
+        setInput={setContains}
         data={deficiencyData}
       />
+      {contains}
       <TextFields name="Dish Name" setInput={setDish} />
       <TextFields name="BMI" setInput={setBmi} />
       <TextFields
