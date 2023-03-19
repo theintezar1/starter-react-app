@@ -29,9 +29,11 @@ function Signin() {
   console.log(auth?.currentUser?.email)
 
   const handleAuth = async () => {
+    const userId = await auth?.currentUser?.uid;
     try {
    await createUserWithEmailAndPassword(auth, email, confirmPassword);
      alert("Successfully")
+     localStorage.setItem("userId", userId);
      navigate("/customer_requirements")
     } catch (error) {
       alert(error);
@@ -39,9 +41,11 @@ function Signin() {
   };
 
   const signInWithGoogle = async () => {
+    const userId = await auth?.currentUser?.uid;
     try {
       await signInWithPopup(auth, googleProvider);
       await localStorage.setItem("userPhoto", auth.currentUser.photoURL)
+      localStorage.setItem("userId", userId);
       navigate("/customer_requirements")
     } catch (error) {
       console.error(error);
