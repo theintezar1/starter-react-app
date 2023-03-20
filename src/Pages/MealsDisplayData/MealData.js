@@ -87,7 +87,7 @@ function MealData() {
         }}
       >
        
-        {mealList.map((doc, index) => (
+        {mealList?mealList.map((doc, index) => (
           <Box key={index}>
             <RecipeReviewCard
               name={doc.dish}
@@ -103,7 +103,7 @@ function MealData() {
             />
             <hr />
           </Box>
-        ))}
+        )):<h1></h1>}
       </Box>
     </Box>
   );

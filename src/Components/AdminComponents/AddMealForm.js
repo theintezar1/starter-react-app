@@ -102,7 +102,6 @@ function AddMealForm(props) {
         setInput={setContains}
         data={deficiencyData}
       />
-      {contains}
       <TextFields name="Dish Name" setInput={setDish} />
       <TextFields name="BMI" setInput={setBmi} />
       <TextFields
