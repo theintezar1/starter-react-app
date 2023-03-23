@@ -16,7 +16,7 @@ export const ageData = [ "<16", "16-32", "32-48", "48-60", ">60"]
 export const genderData = ["Male", "Female"]
 export const dietaryData = ["Vegetarian", "Non-Vegetarian"]
 export const medicalData = ["High Blood Pressure", "Diabetes", "Arthritis", "Asthma", "Migraines","High Chol","Nightshade", "Gluten", "Lactose", "Others"]
-export const deficiencyData = ["Iron", "Vitamin D", "Vitamin B12", "Iodine", "Calcium", "Others"]
+export const deficiencyData = ["Iron", "Vitamin D", "Vitamin B12", "Iodine", "Calcium", "Omega-3", "Others"]
 export const allegriesData = ["Lactose", "Gluten", "Soy", "Egg", "Seafood","Nuts", "Chicken", "Fish", "Others"]
 export const dailysleepData = ["<6", "6-8", ">8"]
 export const acitvityData = ["<1", "1-2", "2-4", ">4"]
@@ -24,6 +24,8 @@ export const mealsData = ["Breakfast | Lunch | Dinner", "Breakfast | Lunch | Err
 export const lifestyleData = ["Eat out 1-2 times a month", " Eat out 2-5 times a month", "Eat out >5 times a month"]
 export const foodpreferenceData = ["Medium", "Low"]
 export const bmiData = ["Loss", "Gain"]
+export const forWhomData = ["Me", "Family"]
+export const relationData = ["Wife", "Son"]
 export const heightData = [
     {
         key:"4.8-feet = 142.2cm",

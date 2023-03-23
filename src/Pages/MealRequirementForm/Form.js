@@ -30,6 +30,8 @@ import {
   foodpreferenceData,
   lifestyleData,
   heightData,
+  forWhomData,
+  relationData,
 } from "../../data";
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -51,6 +53,8 @@ function Form() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState("");
+  const [forWhom, setForWhom] = useState("");
+  const [relation, setRelation] = useState("");
 
   // calculate bmi function
   function calculateBmi() {
@@ -210,6 +214,20 @@ function Form() {
           }}
         >
           <TextFields
+            name="For Whom"
+            selected={true}
+            setInput={setForWhom}
+            input={forWhom}
+            data={forWhomData}
+          />
+            <TextFields
+            name="Relation with family"
+            selected={true}
+            setInput={setRelation}
+            input={relation}
+            data={relationData}
+          />
+             <TextFields
             name="Age"
             selected={true}
             setInput={setAge}
@@ -312,3 +330,5 @@ function Form() {
 }
 
 export default Form;
+
+
