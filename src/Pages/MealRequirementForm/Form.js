@@ -213,7 +213,7 @@ function Form() {
             margin: "auto",
           }}
         >
-          <TextFields
+          {/* <TextFields
             name="For Whom"
             selected={true}
             setInput={setForWhom}
@@ -226,7 +226,7 @@ function Form() {
             setInput={setRelation}
             input={relation}
             data={relationData}
-          />
+          /> */}
              <TextFields
             name="Age"
             selected={true}
