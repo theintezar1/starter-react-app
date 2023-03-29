@@ -31,7 +31,6 @@ function Login() {
     const userId = await auth?.currentUser?.uid;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("User Successfully Sign in");
       localStorage.setItem("userId", userId);
       navigate("/customer_requirements")
     } catch (error) {
@@ -43,8 +42,8 @@ function Login() {
     const userId = await auth?.currentUser?.uid;
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate("/customer_requirements")
       localStorage.setItem("userId", userId);
+      navigate("/customer_requirements")
       await localStorage.setItem("userPhoto", auth.currentUser.photoURL)
     } catch (error) {
       console.error(error);

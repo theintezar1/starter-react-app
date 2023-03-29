@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import styled from "@emotion/styled";
+import { Box, Button } from "@mui/material";
 import { display } from "@mui/system";
 import {
   collection,
@@ -12,18 +13,24 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { PrimaryColor } from "../../Color.Config";
+import JsonToCsv from "../../Components/JsonToCSV/JsonToCsv";
 import RecipeReviewCard from "../../Components/muiComponents/RecipeReviewCard";
 import Navbaar from "../../Components/Navbaar/Navbaar";
 import { db } from "../../firebase-config";
 
+const BUTTON = styled(Button)({
+
+})
+
 function MealData() {
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
+  const [family, setFamyly] = useState("Me")
   let id = localStorage.getItem("userId");
   useEffect(() => {
     const getDocument = async () => {
       try {
-        const docRef = doc(db, "usersMealDecriptions", id);
+        const docRef =family=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${family}`, id);
         const docSnap = await getDoc(docRef);
         setUserData(docSnap.data());
       } catch (error) {
@@ -31,9 +38,9 @@ function MealData() {
       }
     };
     getDocument();
-  }, []);
+  }, [family]);
 
-  let array = [];
+ console.log("userData", userData)
 
   useEffect(() => {
     const GetFilteredMeal = async () => {
@@ -80,11 +87,13 @@ function MealData() {
     userData.foodPreference,
     userData.medical,
     userData.allegries,
+    family
   ]);
 
   const handleSave = async () => {
     // Create an initial document to update.
-    const ref = doc(db, "usersMealDecriptions", id);
+    const ref = family=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${family}`, id)
+    //doc(db, "usersMealDecriptions", id);
 
     // To update age and favorite color:
     try {
@@ -101,7 +110,13 @@ function MealData() {
   return (
     <Box sx={{ bgcolor: PrimaryColor }}>
       <Navbaar />
-      <button onClick={handleSave} style={{display:userData.saveMealData?"none":"block"}}>Save this meal</button>
+      <Box sx={{display:"flex", gap:"20px"}}>
+      <Button onClick={handleSave} variant="contained" style={{display:userData.saveMealData?"none":"block"}}>Save</Button>
+      <Button onClick={()=>{setFamyly("Son")}} variant="contained" >Son</Button>
+      <Button onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</Button>
+      <Button onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</Button>
+      <JsonToCsv mealData={mealList}/>
+      </Box>
       <Box
         sx={{
           display: "flex",

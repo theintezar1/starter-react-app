@@ -25,7 +25,7 @@ export const lifestyleData = ["Eat out 1-2 times a month", " Eat out 2-5 times a
 export const foodpreferenceData = ["Medium", "Low"]
 export const bmiData = ["Loss", "Gain"]
 export const forWhomData = ["Me", "Family"]
-export const relationData = ["Wife", "Son"]
+export const relationData = ["Wife", "Son", "Daughter"]
 export const heightData = [
     {
         key:"4.8-feet = 142.2cm",

@@ -3,13 +3,14 @@ import React from 'react'
 import { textColor } from '../../Color.Config';
 
  function TextFields(props) {
-    const {name, input, setInput, selected, data} = props;
+    const {name, input, setInput, selected, data, disable} = props;
   return (
     <div>
         <TextField
           select={selected}
           sx={{width:"250px"}}
           size='small'
+          disabled={disable}
           label={name}
           value={input}
           onChange={(e)=>{setInput(e.target.value)}}

@@ -53,8 +53,11 @@ function Form() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState("");
-  const [forWhom, setForWhom] = useState("");
+  const [forWhom, setForWhom] = useState("Me");
   const [relation, setRelation] = useState("");
+  const [loading, setLoading] = useState(false);
+
+
 
   // calculate bmi function
   function calculateBmi() {
@@ -89,9 +92,10 @@ function Form() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const userId = await auth?.currentUser?.uid;
-      const ref = doc(db, "usersMealDecriptions", userId);
+      const ref =forWhom=="Me"?doc(db, "usersMealDecriptions", userId):doc(db, `users's${relation}`, userId);
       var today = new Date();
       var dd = String(today.getDate()).padStart(2, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -131,7 +135,8 @@ function Form() {
   useEffect(() => {
     const getDocument = async () => {
       try {
-        const docRef = doc(db, "usersMealDecriptions", id);
+        const docRef = forWhom=="Me"?doc(db, "usersMealDecriptions", id):doc(db, `users's${relation}`, id)
+        //doc(db, "usersMealDecriptions", id);
         const docSnap = await getDoc(docRef);
         console.log(docSnap.data());
         setAge(docSnap.data().age);
@@ -156,7 +161,7 @@ function Form() {
 
     };
     getDocument();
-  }, []);
+  }, [relation, forWhom]);
 
   return (
     <Box
@@ -213,7 +218,7 @@ function Form() {
             margin: "auto",
           }}
         >
-          {/* <TextFields
+          <TextFields
             name="For Whom"
             selected={true}
             setInput={setForWhom}
@@ -226,7 +231,8 @@ function Form() {
             setInput={setRelation}
             input={relation}
             data={relationData}
-          /> */}
+            disable={forWhom=="Me"?true:false}
+          />
              <TextFields
             name="Age"
             selected={true}
@@ -307,9 +313,9 @@ function Form() {
           <TextFields name="Weight (kg)" setInput={setWeight} input={weight} />
           <TextFields name="BMI" setInput={setBmi} input={bmi} />
         </Box>
-        <button
+        <Button
           style={{
-            padding: "10px",
+            // padding: "0px",
             width: "250px",
             backgroundColor: SecondaryColor,
             border: "none",
@@ -318,11 +324,13 @@ function Form() {
             fontSize: "18px",
             margin: "auto",
             marginTop: "-20px",
+            textTransform:"none",
+            fontFamily: 'Josefin Sans, sans-serif'
           }}
           onClick={handleSubmit}
         >
           Create Your Meal
-        </button>
+        </Button>
         {/* <Button onClick={handleLogout}> logout </Button> */}
       </Box>
     </Box>

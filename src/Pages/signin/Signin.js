@@ -32,8 +32,7 @@ function Signin() {
     const userId = await auth?.currentUser?.uid;
     try {
    await createUserWithEmailAndPassword(auth, email, confirmPassword);
-     alert("Successfully")
-     localStorage.setItem("userId", userId);
+    localStorage.setItem("userId", userId);
      navigate("/customer_requirements")
     } catch (error) {
       alert(error);
