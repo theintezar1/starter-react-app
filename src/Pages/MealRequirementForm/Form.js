@@ -303,7 +303,7 @@ function Form() {
             data={lifestyleData}
           />
           <TextFields
-            name="Food Preference"
+            name="Spiciness Level"
             selected={true}
             input={foodPreference}
             setInput={setFoodPreference}
