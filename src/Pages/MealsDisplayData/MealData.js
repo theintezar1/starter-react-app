@@ -110,7 +110,7 @@ function MealData() {
   return (
     <Box sx={{ bgcolor: PrimaryColor }}>
       <Navbaar />
-      <Box sx={{display:"flex", gap:"20px"}}>
+      <Box sx={{display:"flex", gap:{sm:"20px", xs:"3px"}}}>
       <Button onClick={handleSave} variant="contained" style={{display:userData.saveMealData?"none":"block"}}>Save</Button>
       <Button onClick={()=>{setFamyly("Son")}} variant="contained" >Son</Button>
       <Button onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</Button>
