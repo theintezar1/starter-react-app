@@ -12,15 +12,65 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { PrimaryColor } from "../../Color.Config";
+import { PrimaryColor, SecondaryColor, textColor } from "../../Color.Config";
 import JsonToCsv from "../../Components/JsonToCSV/JsonToCsv";
 import RecipeReviewCard from "../../Components/muiComponents/RecipeReviewCard";
 import Navbaar from "../../Components/Navbaar/Navbaar";
 import { db } from "../../firebase-config";
 
 const BUTTON = styled(Button)({
-
+  backgroundColor: SecondaryColor,
+  border: "none",
+  color: textColor,
+  fontWeight: "400",
+  textTransform:"none",
+  fontFamily: 'Josefin Sans, sans-serif',
+  height:"30px",
+  '&:hover':{
+    bgcolor:"red"
+  }
 })
+
+// meal Plan
+// Define an object to represent the days of the week
+const daysOfWeek = {
+  0: 'Sunday',
+  1: 'Monday',
+  2: 'Tuesday',
+  3: 'Wednesday',
+  4: 'Thursday',
+  5: 'Friday',
+  6: 'Saturday'
+};
+
+// Define an object to represent the meals for each day of the week
+const meals = {
+  breakfast: ['eggs', 'toast', 'coffee'],
+  lunch: ['sandwich', 'fruit', 'water'],
+  dinner: ['chicken', 'rice', 'vegetables', 'water']
+};
+
+// Get the current day of the week
+const today = new Date().getDay();
+const todayStr = daysOfWeek[today];
+console.log("first", todayStr)
+
+// Check if a meal plan has been stored for today
+const storedMealPlan = localStorage.getItem(todayStr);
+if (storedMealPlan) {
+  // Use the stored meal plan if it is for today
+  console.log(storedMealPlan);
+} else {
+  // Generate a new meal plan for today
+  const breakfast = meals.breakfast[Math.floor(Math.random() * meals.breakfast.length)];
+  const lunch = meals.lunch[Math.floor(Math.random() * meals.lunch.length)];
+  const dinner = meals.dinner[Math.floor(Math.random() * meals.dinner.length)];
+
+  const mealPlan = `On ${todayStr}, you will have ${breakfast} for breakfast, ${lunch} for lunch, and ${dinner} for dinner.`;
+  localStorage.setItem(todayStr, mealPlan);
+  console.log(mealPlan);
+}
+// meal plan
 
 function MealData() {
   const [userData, setUserData] = useState([]);
@@ -104,18 +154,18 @@ function MealData() {
     } catch (error) {
       console.error(error)
     }
- 
   };
 
   return (
     <Box sx={{ bgcolor: PrimaryColor }}>
       <Navbaar />
-      <Box sx={{display:"flex", gap:{sm:"20px", xs:"3px"}}}>
-      <Button onClick={handleSave} variant="contained" style={{display:userData.saveMealData?"none":"block"}}>Save</Button>
-      <Button onClick={()=>{setFamyly("Son")}} variant="contained" >Son</Button>
-      <Button onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</Button>
-      <Button onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</Button>
-      <JsonToCsv mealData={mealList}/>
+      <Box sx={{display:"flex", gap:{sm:"20px", xs:"3px"}, mt:"10px", flexWrap:"wrap"}}>
+      <BUTTON onClick={handleSave} variant="contained" style={{height:"30px"}}>Save</BUTTON>
+      <BUTTON onClick={()=>{setFamyly("Son")}} variant="contained" >Son</BUTTON>
+      <BUTTON onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</BUTTON>
+      <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</BUTTON>
+      <JsonToCsv  mealData={mealList}/>
+      <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Meal Calender</BUTTON>
       </Box>
       <Box
         sx={{

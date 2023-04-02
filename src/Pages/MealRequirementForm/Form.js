@@ -315,7 +315,6 @@ function Form() {
         </Box>
         <Button
           style={{
-            // padding: "0px",
             width: "250px",
             backgroundColor: SecondaryColor,
             border: "none",
