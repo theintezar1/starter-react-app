@@ -17,6 +17,7 @@ import JsonToCsv from "../../Components/JsonToCSV/JsonToCsv";
 import RecipeReviewCard from "../../Components/muiComponents/RecipeReviewCard";
 import Navbaar from "../../Components/Navbaar/Navbaar";
 import { db } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -32,47 +33,16 @@ const BUTTON = styled(Button)({
 })
 
 // meal Plan
-// Define an object to represent the days of the week
-const daysOfWeek = {
-  0: 'Sunday',
-  1: 'Monday',
-  2: 'Tuesday',
-  3: 'Wednesday',
-  4: 'Thursday',
-  5: 'Friday',
-  6: 'Saturday'
-};
 
-// Define an object to represent the meals for each day of the week
-const meals = {
-  breakfast: ['eggs', 'toast', 'coffee'],
-  lunch: ['sandwich', 'fruit', 'water'],
-  dinner: ['chicken', 'rice', 'vegetables', 'water']
-};
 
-// Get the current day of the week
-const today = new Date().getDay();
-const todayStr = daysOfWeek[today];
-console.log("first", todayStr)
 
-// Check if a meal plan has been stored for today
-const storedMealPlan = localStorage.getItem(todayStr);
-if (storedMealPlan) {
-  // Use the stored meal plan if it is for today
-  console.log(storedMealPlan);
-} else {
-  // Generate a new meal plan for today
-  const breakfast = meals.breakfast[Math.floor(Math.random() * meals.breakfast.length)];
-  const lunch = meals.lunch[Math.floor(Math.random() * meals.lunch.length)];
-  const dinner = meals.dinner[Math.floor(Math.random() * meals.dinner.length)];
 
-  const mealPlan = `On ${todayStr}, you will have ${breakfast} for breakfast, ${lunch} for lunch, and ${dinner} for dinner.`;
-  localStorage.setItem(todayStr, mealPlan);
-  console.log(mealPlan);
-}
+
 // meal plan
 
 function MealData() {
+
+  const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
   const [family, setFamyly] = useState("Me")
@@ -165,7 +135,7 @@ function MealData() {
       <BUTTON onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</BUTTON>
       <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</BUTTON>
       <JsonToCsv  mealData={mealList}/>
-      <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Meal Calender</BUTTON>
+      <BUTTON onClick={()=>{navigate("/calender_of_meal")}} variant="contained" >Meal Calender</BUTTON>
       </Box>
       <Box
         sx={{

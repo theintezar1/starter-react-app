@@ -8,6 +8,7 @@ import { auth } from "../../firebase-config";
 import MealData from "../../Pages/MealsDisplayData/MealData";
 import Admin from "../../Pages/Admin/Admin";
 import AllMealData from "../AdminComponents/AllMealData";
+import MealCalender from "../../Pages/MealCalender/MealCalender";
 
 function RouteComponent() {
   return (
@@ -20,6 +21,7 @@ function RouteComponent() {
         <Route path="/meal_list" element={<MealData/>} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/admin/all_meal" element={<AllMealData/>} />
+        <Route path="/calender_of_meal" element={<MealCalender/>} />
 
         
       </Routes>
