@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react'
 import Navbaar from '../../Components/Navbaar/Navbaar';
+import { PrimaryColor, textColor } from '../../Color.Config';
 
 const meals = {
     breakfast:["toast", "coffee", "upma", "bun", "sandwich", "poha", "eggs", "croissant", "pancakes", "waffles", "oatmeal", "smoothie bowl", "bagel and cream cheese", "avocado toast", "granola and yogurt", "french toast", "scrambled eggs and bacon", "muffins", "omelette", "fruit salad", "hash browns"]
@@ -39,15 +40,71 @@ const meals = {
     meals.dinner.splice(dinnerIndex, 1);
   });
   
-  console.log(weeklyMeals);
+  console.log(weeklyMeals.Monday.breakfast);
 
 function MealCalender() {
     
 
   return (
-    <Box>
+    <Box sx={{ bgcolor: PrimaryColor, minHeight:"100vh" }}>
         <Navbaar/>
-        <Box></Box>
+        <Box>
+        <h1 style={{color:textColor, marginTop:"20px", marginBottom:"20px"}}>Week Meal Table</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Day</th>
+				<th>Breakfast</th>
+				<th>Lunch</th>
+				<th>Dinner</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Monday</td>
+				<td>{weeklyMeals.Monday.breakfast}</td>
+				<td>{weeklyMeals.Monday.lunch}</td>
+				<td>{weeklyMeals.Monday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Tuesday</td>
+				<td>{weeklyMeals.Tuesday.breakfast}</td>
+				<td>{weeklyMeals.Tuesday.lunch}</td>
+				<td>{weeklyMeals.Tuesday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Wednesday</td>
+				<td>{weeklyMeals.Wednesday.breakfast}</td>
+				<td>{weeklyMeals.Wednesday.lunch}</td>
+				<td>{weeklyMeals.Wednesday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Thursday</td>
+				<td>{weeklyMeals.Thursday.breakfast}</td>
+				<td>{weeklyMeals.Thursday.lunch}</td>
+				<td>{weeklyMeals.Thursday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Friday</td>
+				<td>{weeklyMeals.Friday.breakfast}</td>
+				<td>{weeklyMeals.Friday.lunch}</td>
+				<td>{weeklyMeals.Friday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Saturday</td>
+				<td>{weeklyMeals.Saturday.breakfast}</td>
+				<td>{weeklyMeals.Saturday.lunch}</td>
+				<td>{weeklyMeals.Saturday.dinner}</td>
+			</tr>
+			<tr>
+				<td>Sunday</td>
+				<td>{weeklyMeals.Sunday.breakfast}</td>
+				<td>{weeklyMeals.Sunday.lunch}</td>
+				<td>{weeklyMeals.Sunday.dinner}</td>
+			</tr>
+		</tbody>
+	</table>
+        </Box>
         <Box></Box>
     </Box>
   )
