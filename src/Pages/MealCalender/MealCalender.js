@@ -1,48 +1,32 @@
 import { Box } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbaar from '../../Components/Navbaar/Navbaar';
 import { PrimaryColor, textColor } from '../../Color.Config';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
-const meals = {
-    breakfast:["toast", "coffee", "upma", "bun", "sandwich", "poha", "eggs", "croissant", "pancakes", "waffles", "oatmeal", "smoothie bowl", "bagel and cream cheese", "avocado toast", "granola and yogurt", "french toast", "scrambled eggs and bacon", "muffins", "omelette", "fruit salad", "hash browns"]
-  ,
-    lunch: ["sushi", "salad", "pizza", "tacos", "sandwich", "burger", "pasta", "rice bowl", "wrap", "quinoa bowl", "stir fry", "soup and sandwich", "burrito", "pad thai", "falafel wrap", "lasagna", "chicken shawarma", "bibimbap", "chicken salad", "fish and chips", "tuna salad"]
-  ,
-    dinner:["steak", "chops", "salmon", "chicken curry", "stew", "spaghetti", "grilled vegetables", "roast", "shrimp scampi", "baked salmon", "lamb chops", "mushroom risotto", "stir fry", "roast chicken", "vegetable lasagna", "chicken fajitas", "stuffed peppers", "chicken parmesan", "teriyaki chicken", "meatloaf", "broccoli"]
-  };
-  
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  
-  const weeklyMeals = {};
-  
-  daysOfWeek.forEach(day => {
-    const breakfastIndex = Math.floor(Math.random() * meals.breakfast.length);
-    let lunchIndex = Math.floor(Math.random() * meals.lunch.length);
-    let dinnerIndex = Math.floor(Math.random() * meals.dinner.length);
-  
-    // Make sure the lunch and dinner meals are not the same as the breakfast meal
-    while (meals.breakfast[breakfastIndex] === meals.lunch[lunchIndex]) {
-      lunchIndex = Math.floor(Math.random() * meals.lunch.length);
-    }
-    while (meals.breakfast[breakfastIndex] === meals.dinner[dinnerIndex] || meals.lunch[lunchIndex] === meals.dinner[dinnerIndex]) {
-      dinnerIndex = Math.floor(Math.random() * meals.dinner.length);
-    }
-  
-    weeklyMeals[day] = {
-      breakfast: meals.breakfast[breakfastIndex],
-      lunch: meals.lunch[lunchIndex],
-      dinner: meals.dinner[dinnerIndex]
-    };
-  
-    // Remove the used meals from the array for the next iteration
-    meals.breakfast.splice(breakfastIndex, 1);
-    meals.lunch.splice(lunchIndex, 1);
-    meals.dinner.splice(dinnerIndex, 1);
-  });
-  
-  console.log(weeklyMeals.Monday.breakfast);
+
 
 function MealCalender() {
+  // const [first, setfirst] = useState({})
+  const [userData, setUserData] = useState([]);
+
+  let id = localStorage.getItem("userId");
+  useEffect(() => {
+    const getDocument = async () => {
+      try {
+        const docRef = doc(db, "usersMealDecriptions", id);
+        const docSnap = await getDoc(docRef);
+        setUserData(docSnap.data());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDocument();
+  }, []);
+
+  console.log("userData", userData)
+
     
 
   return (
@@ -62,45 +46,45 @@ function MealCalender() {
 		<tbody>
 			<tr>
 				<td>Monday</td>
-				<td>{weeklyMeals.Monday.breakfast}</td>
-				<td>{weeklyMeals.Monday.lunch}</td>
-				<td>{weeklyMeals.Monday.dinner}</td>
+				<td>{userData?.weekPlan?.Monday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Monday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Monday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Tuesday</td>
-				<td>{weeklyMeals.Tuesday.breakfast}</td>
-				<td>{weeklyMeals.Tuesday.lunch}</td>
-				<td>{weeklyMeals.Tuesday.dinner}</td>
+				<td>{userData?.weekPlan?.Tuesday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Tuesday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Tuesday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Wednesday</td>
-				<td>{weeklyMeals.Wednesday.breakfast}</td>
-				<td>{weeklyMeals.Wednesday.lunch}</td>
-				<td>{weeklyMeals.Wednesday.dinner}</td>
+				<td>{userData?.weekPlan?.Wednesday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Wednesday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Wednesday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Thursday</td>
-				<td>{weeklyMeals.Thursday.breakfast}</td>
-				<td>{weeklyMeals.Thursday.lunch}</td>
-				<td>{weeklyMeals.Thursday.dinner}</td>
+				<td>{userData?.weekPlan?.Thursday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Thursday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Thursday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Friday</td>
-				<td>{weeklyMeals.Friday.breakfast}</td>
-				<td>{weeklyMeals.Friday.lunch}</td>
-				<td>{weeklyMeals.Friday.dinner}</td>
+				<td>{userData?.weekPlan?.Friday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Friday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Friday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Saturday</td>
-				<td>{weeklyMeals.Saturday.breakfast}</td>
-				<td>{weeklyMeals.Saturday.lunch}</td>
-				<td>{weeklyMeals.Saturday.dinner}</td>
+				<td>{userData?.weekPlan?.Saturday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Saturday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Saturday?.dinner?.dish}</td>
 			</tr>
 			<tr>
 				<td>Sunday</td>
-				<td>{weeklyMeals.Sunday.breakfast}</td>
-				<td>{weeklyMeals.Sunday.lunch}</td>
-				<td>{weeklyMeals.Sunday.dinner}</td>
+				<td>{userData?.weekPlan?.Sunday?.breakfast?.dish}</td>
+				<td>{userData?.weekPlan?.Sunday?.lunch?.dish}</td>
+				<td>{userData?.weekPlan?.Sunday?.dinner?.dish}</td>
 			</tr>
 		</tbody>
 	</table>

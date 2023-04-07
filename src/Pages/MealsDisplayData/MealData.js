@@ -18,6 +18,7 @@ import RecipeReviewCard from "../../Components/muiComponents/RecipeReviewCard";
 import Navbaar from "../../Components/Navbaar/Navbaar";
 import { db } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
+import { loadingButtonClasses } from "@mui/lab";
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -32,19 +33,14 @@ const BUTTON = styled(Button)({
   }
 })
 
-// meal Plan
 
-
-
-
-
-// meal plan
 
 function MealData() {
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
+  const [weekPlan, setWeekPlan] = useState({});
   const [family, setFamyly] = useState("Me")
   let id = localStorage.getItem("userId");
   useEffect(() => {
@@ -60,7 +56,7 @@ function MealData() {
     getDocument();
   }, [family]);
 
- console.log("userData", userData)
+  console.log("userData", userData)
 
   useEffect(() => {
     const GetFilteredMeal = async () => {
@@ -82,15 +78,15 @@ function MealData() {
           : where("allData", "==", "all")
       );
 
-      console.log("medical", medicalArray);
-      console.log("deficency", deficencyArray);
+      // console.log("medical", medicalArray);
+      // console.log("deficency", deficencyArray);
 
       const data = await getDocs(q);
       const filterData = data.docs.map((doc) => ({
         ...doc.data(),
       }));
 
-      console.log("pre filter", filterData);
+      // console.log("pre filter", filterData);
       const filteredData = filterData.filter((item) =>
         medicalArray.length > 0 && deficencyArray.length > 0
           ? !medicalArray.includes(item.medCond) &&
@@ -98,7 +94,7 @@ function MealData() {
           : !medicalArray.includes(item.medCond) ||
             deficencyArray.includes(item.contains)
       );
-      console.log("after filter", filteredData);
+      // console.log("after filter", filteredData);
       setMealList(filteredData);
     };
     GetFilteredMeal();
@@ -110,6 +106,61 @@ function MealData() {
     family
   ]);
 
+
+
+  const lunch = mealList.filter((item) => item.timeOfFood=="L");
+  const breakFast = mealList.filter((item) => item.timeOfFood=="B");
+  const dinner = mealList.filter((item) => item.timeOfFood=="D");
+
+  // meal Plan
+
+  useEffect(() => {
+    
+  const setMealPlanOfWeek = async() =>{
+    const breakfast = await userData.breakFast;
+    const lunch = await userData.lunch;
+    const dinner = await userData.dinner;
+
+ 
+  
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  
+  const weeklyMeals = {};
+  
+  daysOfWeek.forEach(day => {
+    const breakfastIndex = Math.floor(Math.random() * breakfast.length);
+    let lunchIndex = Math.floor(Math.random() * lunch.length);
+    let dinnerIndex = Math.floor(Math.random() * dinner.length);
+  
+    // Make sure the lunch and dinner meals are not the same as the breakfast meal
+    while (breakfast[breakfastIndex].dish === lunch[lunchIndex].dish) {
+      lunchIndex = Math.floor(Math.random() * lunch.length);
+    }
+    while (breakfast[breakfastIndex].dish === dinner[dinnerIndex].dish || lunch[lunchIndex].dish === dinner[dinnerIndex].dish) {
+      dinnerIndex = Math.floor(Math.random() * dinner.length);
+    }
+  
+    weeklyMeals[day] = {
+      breakfast: breakfast[breakfastIndex],
+      lunch: lunch[lunchIndex],
+      dinner: dinner[dinnerIndex]
+    };
+  
+    // Remove the used meals from the array for the next iteration
+    breakfast.splice(breakfastIndex, 1);
+    lunch.splice(lunchIndex, 1);
+    dinner.splice(dinnerIndex, 1);
+  });
+
+  
+  setWeekPlan(weeklyMeals);
+ }
+ setMealPlanOfWeek()
+}, [userData])
+
+console.log(weekPlan)
+ // meal plan
+
   const handleSave = async () => {
     // Create an initial document to update.
     const ref = family=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${family}`, id)
@@ -118,13 +169,19 @@ function MealData() {
     // To update age and favorite color:
     try {
       await updateDoc(ref, {
-        saveMealData: mealList
+        saveMealData: mealList,
+        lunch,
+        breakFast,
+        dinner,
+        weekPlan
       })
       alert("save successfully")
     } catch (error) {
       console.error(error)
     }
   };
+
+
 
   return (
     <Box sx={{ bgcolor: PrimaryColor }}>
@@ -135,7 +192,7 @@ function MealData() {
       <BUTTON onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</BUTTON>
       <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</BUTTON>
       <JsonToCsv  mealData={mealList}/>
-      <BUTTON onClick={()=>{navigate("/calender_of_meal")}} variant="contained" >Meal Calender</BUTTON>
+      <BUTTON onClick={()=>{navigate("/calender_of_meal");handleSave()}} variant="contained" >Meal Calender</BUTTON>
       </Box>
       <Box
         sx={{

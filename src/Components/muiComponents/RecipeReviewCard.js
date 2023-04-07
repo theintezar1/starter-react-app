@@ -1,28 +1,29 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Card from "@mui/material/Card";
+import CardHeader from "@mui/material/CardHeader";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Collapse from "@mui/material/Collapse";
+import Avatar from "@mui/material/Avatar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import { red } from "@mui/material/colors";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import { textColor } from "../../Color.Config";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "auto",
+  transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
   }),
 }));
@@ -35,11 +36,30 @@ export default function RecipeReviewCard(props) {
     setExpanded(!expanded);
   };
 
-  const {name, allegrie, image, desc, ing1, ing2, mainIng, medicalCond, deficency,date} = props;
+  const {
+    name,
+    allegrie,
+    image,
+    desc,
+    ing1,
+    ing2,
+    mainIng,
+    medicalCond,
+    deficency,
+    date,
+  } = props;
 
   return (
-    <Card sx={{ maxWidth: 345, width:"340px", minHeight:"410px" }}>
-      <CardHeader
+    <Card
+      sx={{
+        maxWidth: 345,
+        width: "330px",
+        minHeight: "320px",
+        position: "relative",
+      }}
+    >
+      {/* <CardHeader
+        // sx={{fontSize:"10px"}}
         avatar={
           <Avatar src={image} sx={{ bgcolor: red[500] }} aria-label="recipe">
           
@@ -51,30 +71,66 @@ export default function RecipeReviewCard(props) {
           </IconButton>
         }
         title={name}
-        subheader={date?date:"March 01, 2023"}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image={image}
-        alt="Paella dish"
-      />
+        // subheader={date?date:"March 01, 2023"}
+      /> */}
+      <p
+      style={{padding:"10px", color:textColor}}
+      >{name}</p>
+      <CardMedia component="img" height="194" image={image} alt="Paella dish" />
       <CardContent>
-        <Typography sx={{minHeight:"80px"}} variant="body2" color="text.secondary">
+        {/* <Typography
+          sx={{
+            minHeight: "50px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
+          variant="body"
+          color="text.secondary"
+        >
           {desc}
-        </Typography>
+        </Typography> */}
+        <p
+        style={{
+          fontSize: "14px",
+          lineHeight: "20px",
+          color: "#504f6b",
+          margintop: "0",
+          textAlign: "justify",
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+          WebkitLineClamp: 2,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+        >
+        {desc}
+        </p>
+
+
+
+
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        {/* <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-         <a style={{paddin:"0", display:"flex", alignItems:"center"}} href="https://www.youtube.com/watch?v=3Vf5_St-DEo" ><YouTubeIcon sx={{color:"red"}}/></a> 
+        </IconButton> */}
+        <IconButton
+          aria-label="share"
+          sx={{ position: "absolute", top: "190px", right: "10px" }}
+        >
+          <a
+            style={{ paddin: "0", display: "flex", alignItems: "center" }}
+            href="https://www.youtube.com/watch?v=3Vf5_St-DEo"
+          >
+            <YouTubeIcon sx={{ color: "red" }} />
+          </a>
         </IconButton>
         <ExpandMore
+          sx={{ position: "absolute", bottom: "0px", right: "0px" }}
           expand={expanded}
           onClick={handleExpandClick}
           aria-expanded={expanded}
@@ -86,24 +142,12 @@ export default function RecipeReviewCard(props) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Method:</Typography>
-          <Typography>
-            Main Ingdrients: {mainIng}
-          </Typography>
-          <Typography>
-            2nd Ingdrients: {ing1}
-          </Typography>
-          <Typography>
-            3nd Ingdrients: {ing2}
-          </Typography>
-          <Typography>
-            Allergy: {allegrie}
-          </Typography>
-          <Typography>
-            Deficency: {deficency}
-          </Typography>
-          <Typography>
-            Medical: {medicalCond}
-          </Typography>
+          <Typography>Main Ingdrients: {mainIng}</Typography>
+          <Typography>2nd Ingdrients: {ing1}</Typography>
+          <Typography>3nd Ingdrients: {ing2}</Typography>
+          <Typography>Allergy: {allegrie}</Typography>
+          <Typography>Deficency: {deficency}</Typography>
+          <Typography>Medical: {medicalCond}</Typography>
         </CardContent>
       </Collapse>
     </Card>
