@@ -19,6 +19,7 @@ import Navbaar from "../../Components/Navbaar/Navbaar";
 import { db } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { loadingButtonClasses } from "@mui/lab";
+import MuiButton from "../../Components/muiComponents/MuiButoon";
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -35,18 +36,20 @@ const BUTTON = styled(Button)({
 
 
 
+const options = ["Me",'Son', 'Wife', 'Daughter'];
+
 function MealData() {
 
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
   const [weekPlan, setWeekPlan] = useState({});
-  const [family, setFamyly] = useState("Me")
+  const [family, setFamyly] = useState(0)
   let id = localStorage.getItem("userId");
   useEffect(() => {
     const getDocument = async () => {
       try {
-        const docRef =family=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${family}`, id);
+        const docRef = options[family] =="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${options[family]}`, id);
         const docSnap = await getDoc(docRef);
         setUserData(docSnap.data());
       } catch (error) {
@@ -163,7 +166,7 @@ console.log(weekPlan)
 
   const handleSave = async () => {
     // Create an initial document to update.
-    const ref = family=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${family}`, id)
+    const ref = options[family]=="Me"? doc(db, "usersMealDecriptions", id):doc(db, `users's${options[family]}`, id)
     //doc(db, "usersMealDecriptions", id);
 
     // To update age and favorite color:
@@ -173,13 +176,13 @@ console.log(weekPlan)
         lunch,
         breakFast,
         dinner,
-        weekPlan
       })
-      alert("save successfully")
     } catch (error) {
       console.error(error)
     }
   };
+
+  console.log("opetion", family)
 
 
 
@@ -187,11 +190,12 @@ console.log(weekPlan)
     <Box sx={{ bgcolor: PrimaryColor }}>
       <Navbaar />
       <Box sx={{display:"flex", gap:{sm:"20px", xs:"3px"}, mt:"10px",ml:"20px", flexWrap:"wrap"}}>
-      <BUTTON onClick={handleSave} variant="contained" style={{height:"30px"}}>Save</BUTTON>
-      <BUTTON onClick={()=>{setFamyly("Son")}} variant="contained" >Son</BUTTON>
+      <BUTTON onClick={handleSave} variant="contained" style={{height:"30px", display:userData}}>Save</BUTTON>
+      {/* <BUTTON onClick={()=>{setFamyly("Son")}} variant="contained" >Son</BUTTON>
       <BUTTON onClick={()=>{setFamyly("Wife")}} variant="contained" >Wife</BUTTON>
-      <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</BUTTON>
-      <JsonToCsv  mealData={mealList}/>
+      <BUTTON onClick={()=>{setFamyly("Daughter")}} variant="contained" >Daughter</BUTTON> */}
+      <MuiButton setSelectedIndex={setFamyly} selectedIndex={family}/>
+      <JsonToCsv  mealData={mealList} />
       <BUTTON onClick={()=>{navigate("/calender_of_meal");handleSave()}} variant="contained" >Meal Calender</BUTTON>
       </Box>
       <Box
