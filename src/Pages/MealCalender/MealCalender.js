@@ -2,7 +2,7 @@ import { Box, Button } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import Navbaar from '../../Components/Navbaar/Navbaar';
 import { PrimaryColor, SecondaryColor, textColor } from '../../Color.Config';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase-config';
 import MuiButton from '../../Components/muiComponents/MuiButoon';
 import styled from '@emotion/styled';
@@ -20,10 +20,14 @@ const BUTTON = styled(Button)({
 	},
   });
 
+const options = ["Me", "Son", "Wife", "Daughter"];
+
 function MealCalender() {
   // const [first, setfirst] = useState({})
   const [userData, setUserData] = useState([]);
   const [weekPlan, setWeekPlan] = useState({});
+  const [family, setFamyly] = useState(0);
+
 
 
   let id = localStorage.getItem("userId");
@@ -96,24 +100,25 @@ function MealCalender() {
 
   console.log("weekPlan", weekPlan);
   
-// // Save Meal Plan query
-//     const saveMealPlan = async () => {
-//     // Create an initial document to update.
-//     const ref =
-//       options[family] == "Me"
-//         ? doc(db, "usersMealDecriptions", id)
-//         : doc(db, `users's${options[family]}`, id);
-//     //doc(db, "usersMealDecriptions", id);
+// Save Meal Plan query
+    const saveMealPlan = async () => {
+    // Create an initial document to update.
+    const ref =
+      options[family] == "Me"
+        ? doc(db, "usersMealDecriptions", id)
+        : doc(db, `users's${options[family]}`, id);
+    //doc(db, "usersMealDecriptions", id);
 
-//     // To update age and favorite color:
-//     try {
-//       await updateDoc(ref, {
-//         weekPlan
-//       });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   };
+    // To update age and favorite color:
+    try {
+      await updateDoc(ref, {
+        weekPlan
+      });
+	  window.location.reload()
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
     
 
@@ -196,16 +201,13 @@ function MealCalender() {
         >
           Save
         </BUTTON> */}
-        <MuiButton setSelectedIndex={"setFamyly"} selectedIndex={"family"} />
+        <MuiButton setSelectedIndex={setFamyly} selectedIndex={family} />
         {/* <JsonToCsv mealData={mealList} /> */}
         <BUTTON
-          onClick={() => {
-            // navigate("/calender_of_meal");
-            // handleSave();
-          }}
+          onClick={saveMealPlan}
           variant="contained"
         >
-          Meal Calender
+          Change Meal
         </BUTTON>
       </Box>
     </Box>
