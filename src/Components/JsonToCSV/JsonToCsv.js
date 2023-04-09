@@ -26,7 +26,6 @@ function JsonToCsv({ mealData }) {
           textTransform: "none",
           fontFamily: "Josefin Sans, sans-serif",
         }}
-        variant="contained"
         onClick={exportToCSV}
       >
         Download

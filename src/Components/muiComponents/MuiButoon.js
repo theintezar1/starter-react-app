@@ -43,7 +43,7 @@ export default function MuiButton(props) {
 
   return (
     <React.Fragment>
-      <ButtonGroup bgcolor={SecondaryColor} variant="contained" ref={anchorRef} aria-label="split button">
+      <ButtonGroup bgcolor={SecondaryColor} ref={anchorRef} aria-label="split button">
         <Button sx={{height:"30px", backgroundColor:SecondaryColor, color:textColor, fontFamily: 'Josefin Sans, sans-serif',textTransform:"none",}} onClick={handleClick}>{options[selectedIndex]}</Button>
         <Button
           sx={{height:"30px", bgcolor:SecondaryColor, color:textColor}}

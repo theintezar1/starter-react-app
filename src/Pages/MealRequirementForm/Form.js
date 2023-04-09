@@ -35,6 +35,7 @@ import {
 } from "../../data";
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
 
 function Form() {
   const [age, setAge] = useState("");
@@ -57,36 +58,32 @@ function Form() {
   const [relation, setRelation] = useState("");
   const [loading, setLoading] = useState(false);
 
-
-
   // calculate bmi function
   function calculateBmi() {
-    if(weight > 0 && height > 0){	
-    var finalBmi = weight/(height/100*height/100)
-    let RoundBmi = Math.round(finalBmi)
+    if (weight > 0 && height > 0) {
+      var finalBmi = weight / (((height / 100) * height) / 100);
+      let RoundBmi = Math.round(finalBmi);
 
-    if(finalBmi < 18.5){
-   setBmi(`That you are too thin.${RoundBmi}`)
+      if (finalBmi < 18.5) {
+        setBmi(`That you are too thin.${RoundBmi}`);
+      }
+      if (finalBmi > 18.5 && finalBmi < 25) {
+        setBmi(`That you are healthy.${RoundBmi}`);
+      }
+      if (finalBmi > 25) {
+        setBmi(`That you have overweight.${RoundBmi}`);
+      }
+    } else {
+      alert("Please Fill in everything correctly");
     }
-    if(finalBmi > 18.5 && finalBmi < 25){
-   setBmi(`That you are healthy.${RoundBmi}`)
-    }
-    if(finalBmi > 25){
-   setBmi(`That you have overweight.${RoundBmi}`)
-    }
-    }
-    else{
-    alert("Please Fill in everything correctly")
-    }
-    }
+  }
 
-    if(height && weight ){
-      setTimeout(() => {
-        calculateBmi()
-      }, 1000);
-    }
+  if (height && weight) {
+    setTimeout(() => {
+      calculateBmi();
+    }, 1000);
+  }
   // calculate bmi function
-
 
   let id = localStorage.getItem("userId");
   const navigate = useNavigate();
@@ -95,13 +92,16 @@ function Form() {
     setLoading(true);
     try {
       const userId = await auth?.currentUser?.uid;
-      const ref =forWhom=="Me"?doc(db, "usersMealDecriptions", userId):doc(db, `users's${relation}`, userId);
+      const ref =
+        forWhom == "Me"
+          ? doc(db, "usersMealDecriptions", userId)
+          : doc(db, `users's${relation}`, userId);
       var today = new Date();
-      var dd = String(today.getDate()).padStart(2, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
       var yyyy = today.getFullYear();
-      
-      today = mm + '/' + dd + '/' + yyyy;
+
+      today = mm + "/" + dd + "/" + yyyy;
 
       await setDoc(ref, {
         age,
@@ -120,22 +120,23 @@ function Form() {
         height,
         weight,
         bmi,
-        "date":today,
+        date: today,
       });
       alert("Show my meal plan");
-      navigate("/meal_list")
+      navigate("/meal_list");
       localStorage.setItem("userId", userId);
     } catch (error) {
       alert(error);
     }
   };
 
-
-
   useEffect(() => {
     const getDocument = async () => {
       try {
-        const docRef = forWhom=="Me"?doc(db, "usersMealDecriptions", id):doc(db, `users's${relation}`, id)
+        const docRef =
+          forWhom == "Me"
+            ? doc(db, "usersMealDecriptions", id)
+            : doc(db, `users's${relation}`, id);
         //doc(db, "usersMealDecriptions", id);
         const docSnap = await getDoc(docRef);
         console.log(docSnap.data());
@@ -154,11 +155,9 @@ function Form() {
         setFoodPreference(docSnap.data().foodPreference);
         setHeight(docSnap.data().height);
         setWeight(docSnap.data().weight);
-
       } catch (error) {
         console.log(error);
       }
-
     };
     getDocument();
   }, [relation, forWhom]);
@@ -174,13 +173,33 @@ function Form() {
         flexDirection: { sm: "row", xs: "column" },
       }}
     >
-      <Box width={"100%"} sx={{ marginTop: { sm: "0", xs: "15px" } }}>
-        <h1
+      <Button
+        sx={{
+          color: textColor,
+          position: "absolute",
+          top: { sm: "10px", xs: "0px" },
+          right: { sm: "10px", xs: "0px" },
+          border: "none",
+          color: textColor,
+          fontWeight: "400",
+          textTransform: "none",
+          fontFamily: "Josefin Sans, sans-serif",
+          height: "30px",
+        }}
+        endIcon={<SkipNextIcon />}
+        onClick={() => {
+          navigate("/meal_list");
+        }}
+      >
+        Skip
+      </Button>
+      <Box width={"100%"} sx={{ marginTop: { sm: "0", xs: "20px" } }}>
+        {/* <h1
           style={{
             color: textColor,
             display: "flex",
             justifyContent: "center",
-            alignItems:"center",
+            alignItems: "center",
           }}
         >
           <span
@@ -193,7 +212,42 @@ function Form() {
             HELP
           </span>{" "}
           <span style={{ padding: "5px" }}> US KNOW YOU!</span>
-        </h1>
+        </h1> */}
+
+        <Box
+          sx={{
+            color: textColor,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize:{sm:"30px", xs:"25px"},
+          }}
+        >
+          <p
+            style={{
+              color: SecondaryColor,
+              backgroundColor: textColor,
+              display:"flex", 
+              alignItems:"center",
+              justifyContent:"center",
+              padding:"3px",
+              paddingTop:"8px"
+            }}
+          >
+            HELP{" "}
+          </p>{" "}
+          <p
+            style={{
+              display:"flex", 
+              alignItems:"center",
+              justifyContent:"center",
+              padding:"3px",
+              paddingTop:"8px"
+            }}
+          >
+          US KNOW YOU!
+          </p>
+        </Box>
       </Box>
       <Box
         sx={{
@@ -225,15 +279,15 @@ function Form() {
             input={forWhom}
             data={forWhomData}
           />
-            <TextFields
+          <TextFields
             name="Relation with family"
             selected={true}
             setInput={setRelation}
             input={relation}
             data={relationData}
-            disable={forWhom=="Me"?true:false}
+            disable={forWhom == "Me" ? true : false}
           />
-             <TextFields
+          <TextFields
             name="Age"
             selected={true}
             setInput={setAge}
@@ -309,7 +363,13 @@ function Form() {
             setInput={setFoodPreference}
             data={foodpreferenceData}
           />
-          <TextFields name="Height" setInput={setHeight} input={height} selected={true} data={heightData} />
+          <TextFields
+            name="Height"
+            setInput={setHeight}
+            input={height}
+            selected={true}
+            data={heightData}
+          />
           <TextFields name="Weight (kg)" setInput={setWeight} input={weight} />
           <TextFields name="BMI" setInput={setBmi} input={bmi} />
         </Box>
@@ -323,8 +383,8 @@ function Form() {
             fontSize: "18px",
             margin: "auto",
             marginTop: "-20px",
-            textTransform:"none",
-            fontFamily: 'Josefin Sans, sans-serif'
+            textTransform: "none",
+            fontFamily: "Josefin Sans, sans-serif",
           }}
           onClick={handleSubmit}
         >
@@ -337,5 +397,3 @@ function Form() {
 }
 
 export default Form;
-
-

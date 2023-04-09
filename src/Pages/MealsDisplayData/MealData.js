@@ -30,9 +30,6 @@ const BUTTON = styled(Button)({
   textTransform: "none",
   fontFamily: "Josefin Sans, sans-serif",
   height: "30px",
-  "&:hover": {
-    bgcolor: "red",
-  },
 });
 
 const options = ["Me", "Son", "Wife", "Daughter"];
@@ -171,7 +168,6 @@ function MealData() {
             navigate("/calender_of_meal");
             handleSave();
           }}
-          variant="contained"
         >
           Meal Calender
         </BUTTON>

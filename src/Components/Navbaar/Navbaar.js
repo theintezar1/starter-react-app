@@ -152,8 +152,7 @@ function Navbaar() {
               }}
               onClick={() => {
                 handleClose();
-                // navigate("/dashboard");
-                // localStorage.removeItem('App')
+                navigate("/customer_requirements");
               }}
             >
               <AppsIcon /> &nbsp; Profile
