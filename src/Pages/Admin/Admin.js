@@ -6,11 +6,12 @@ import Navbaar from '../../Components/Navbaar/Navbaar'
 
 function Admin() {
   return (
-    <Box>
-      
+    <Box bgcolor={PrimaryColor} minHeight={"100vh"}>
       <Navbaar/>
-    <Box bgcolor={PrimaryColor} minHeight={"100vh"} display={"grid"} gap={2}>
+      <Box style={{ position:"relative", top:"100px"}}>
+      <Box display={"grid"} gap={2}>
       <SimpleDialogDemo/>
+    </Box>
     </Box>
     </Box>
   )
