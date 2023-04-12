@@ -46,7 +46,6 @@ export default function RecipeReviewCard(props) {
     mainIng,
     medicalCond,
     deficency,
-    date,
   } = props;
 
   return (
@@ -58,38 +57,12 @@ export default function RecipeReviewCard(props) {
         position: "relative",
       }}
     >
-      {/* <CardHeader
-        // sx={{fontSize:"10px"}}
-        avatar={
-          <Avatar src={image} sx={{ bgcolor: red[500] }} aria-label="recipe">
-          
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={name}
-        // subheader={date?date:"March 01, 2023"}
-      /> */}
+
       <p
       style={{padding:"10px", color:textColor}}
       >{name}</p>
       <CardMedia component="img" height="194" image={image} alt="Paella dish" />
       <CardContent>
-        {/* <Typography
-          sx={{
-            minHeight: "50px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-          variant="body"
-          color="text.secondary"
-        >
-          {desc}
-        </Typography> */}
         <p
         style={{
           fontSize: "14px",
@@ -112,12 +85,6 @@ export default function RecipeReviewCard(props) {
 
       </CardContent>
       <CardActions disableSpacing>
-        {/* <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
         <IconButton
           aria-label="share"
           sx={{ position: "absolute", top: "190px", right: "10px" }}

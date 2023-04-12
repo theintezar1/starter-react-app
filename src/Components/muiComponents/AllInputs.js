@@ -15,6 +15,7 @@ import { textColor } from '../../Color.Config';
           value={input}
           onChange={(e)=>{setInput(e.target.value)}}
         >
+           <MenuItem key={""} value={""}>Unselect</MenuItem>
           {data?.map((option) => (
             <MenuItem key={name=="Height"?option.key:option} value={name=="Height"?option.value:option}>
               {name=="Height"?option.key:option}

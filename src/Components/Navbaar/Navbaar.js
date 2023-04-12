@@ -65,7 +65,7 @@ function Navbaar() {
       alert("erro");
     }
   };
-  
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -76,104 +76,100 @@ function Navbaar() {
   };
 
   const pic = localStorage.getItem("userPhoto");
-  console.log("pic is",pic)
+  console.log("pic is", pic);
 
   return (
     <Box
       sx={{
-        position:"fixed",
+        position: "fixed",
         width: "100%",
         display: "flex",
         justifyContent: "space-between",
-        padding: "10px",
+        padding: "5px",
         bgcolor: "white",
         alignItems: "center",
-        zIndex:999,
+        zIndex: 999,
       }}
     >
       <img
         style={{ marginLeft: "20px" }}
-        width={"60px"}
+        width={"45px"}
         src={pinchFit}
         alt="Pinch fit"
       />
 
-      <Box>
-        <Box
-          sx={{ marginRight: { xs: "35px" } }}
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-          onMouseOver={handleClick}
-        >
-        <Avatar alt="" src={pic} sx={{mr:"27px"}}/>
-        </Box>
+      <Avatar
+        aria-controls={open ? "basic-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onMouseOver={handleClick}
+        alt=""
+        src={pic}
+        sx={{marginRight:"25px"}}
+      />
 
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <Box sx={{ p: "20px 20px 0px 20px", backgroundColor: "" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                gap: "10px",
-                padding: "0px",
-              }}
-            >
-           <Avatar alt="" src={pic} />
-
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                gap: "10px",
-                padding: "20px",
-              }}
-            >
-            </Box>
-            <MenuItem
-              sx={{
-                color: "grey",
-                fontFamily: "sans-serif",
-                fontWeight: "300",
-                p: "10px",
-              }}
-              onClick={() => {
-                handleClose();
-                navigate("/customer_requirements");
-              }}
-            >
-              <AppsIcon /> &nbsp; Profile
-            </MenuItem>
-            <MenuItem
-              sx={{
-                color: "grey",
-                fontFamily: "sans-serif",
-                fontWeight: "300",
-                p: "10px",
-              }}
-              onClick={() => {
-                handleClose();
-                handleonclickLogOut();
-              }}
-            >
-              <LogoutIcon /> &nbsp; Logout
-            </MenuItem>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Box sx={{ p: "20px 20px 0px 20px", backgroundColor: "" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "10px",
+              padding: "0px",
+            }}
+          >
+            <Avatar alt="" src={pic} />
           </Box>
-        </Menu>
-      </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              gap: "10px",
+              padding: "20px",
+            }}
+          ></Box>
+          <MenuItem
+            sx={{
+              color: "grey",
+              fontFamily: "sans-serif",
+              fontWeight: "300",
+              p: "10px",
+            }}
+            onClick={() => {
+              handleClose();
+              navigate("/customer_requirements");
+            }}
+          >
+            <AppsIcon /> &nbsp; Profile
+          </MenuItem>
+          <MenuItem
+            sx={{
+              color: "grey",
+              fontFamily: "sans-serif",
+              fontWeight: "300",
+              p: "10px",
+            }}
+            onClick={() => {
+              handleClose();
+              handleonclickLogOut();
+            }}
+          >
+            <LogoutIcon /> &nbsp; Logout
+          </MenuItem>
+        </Box>
+      </Menu>
     </Box>
   );
 }

@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { PrimaryColor, SecondaryColor, textColor } from "../../Color.Config";
+import { BottomNavbaarColor, PrimaryColor, SecondaryColor, textColor } from "../../Color.Config";
 import JsonToCsv from "../../Components/JsonToCSV/JsonToCsv";
 import RecipeReviewCard from "../../Components/muiComponents/RecipeReviewCard";
 import Navbaar from "../../Components/Navbaar/Navbaar";
@@ -35,12 +35,28 @@ const BUTTON = styled(Button)({
 const options = ["Me", "Son", "Wife", "Daughter"];
 
 function MealData() {
+  let index = localStorage.getItem("index");
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
   const [unsubscribe, setUnsubscribe] = useState(null);
-  const [family, setFamyly] = useState(0);
+  const [family, setFamyly] = useState(index);
   let id = localStorage.getItem("userId");
+
+  //set index in local storage 
+  if(options[family]=="Son"){
+    localStorage.setItem('index', 1)
+  }
+  else if(options[family]=="Wife"){
+    localStorage.setItem('index', 2)
+  }
+  else if(options[family]=="Daughter"){
+    localStorage.setItem('index', 3)
+  }
+  else{
+    localStorage.setItem('index', 0)
+  }
+ 
   useEffect(() => {
     const getDocument = async () => {
       try {
@@ -133,7 +149,11 @@ function MealData() {
     }
   };
 
-
+if(options[family] != "Me"){
+  setTimeout(() => {
+    handleSave();
+  }, 3000);
+}
 
   setTimeout(() => {
     handleSave();
@@ -144,12 +164,14 @@ function MealData() {
       <Navbaar />
       <Box
         sx={{
+          backgroundColor:BottomNavbaarColor,
+          padding:"7px",
           display: "flex",
           gap: { sm: "10px", xs: "3px" },
           flexWrap: "wrap",
           position: "fixed",
           zIndex: 999,
-          bottom: "10px",
+          bottom: "0px",
           width: "100%",
           justifyContent: "center",
         }}
@@ -179,9 +201,10 @@ function MealData() {
           gap: 2,
           flexWrap: "wrap",
           position: "relative",
-          top: 90,
+          top: 70,
           backgroundColor: PrimaryColor,
-          p: 1,
+          pt:1,
+          pb:5,
         }}
       >
         {mealList ? (
