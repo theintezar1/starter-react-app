@@ -22,9 +22,9 @@ export const dailysleepData = ["<6", "6-8", ">8"]
 export const acitvityData = ["<1", "1-2", "2-4", ">4"]
 export const mealsData = ["Breakfast | Lunch | Dinner", "Breakfast | Lunch | Erratic", "Others"]
 export const lifestyleData = ["Eat out 1-2 times a month", " Eat out 2-5 times a month", "Eat out >5 times a month"]
-export const foodpreferenceData = ["Medium", "Low"]
+export const foodpreferenceData = ["Medium", "Low", "High"]
 export const bmiData = ["Loss", "Gain"]
-export const forWhomData = ["Me", "Family"]
+export const forWhomData = ["Self", "Family"]
 export const relationData = ["Wife", "Son", "Daughter"]
 export const heightData = [
     {

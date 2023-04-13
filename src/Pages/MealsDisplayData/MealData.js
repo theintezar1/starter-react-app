@@ -32,7 +32,7 @@ const BUTTON = styled(Button)({
   height: "30px",
 });
 
-const options = ["Me", "Son", "Wife", "Daughter"];
+const options = ["Self", "Son", "Wife", "Daughter"];
 
 function MealData() {
   let index = localStorage.getItem("index");
@@ -61,7 +61,7 @@ function MealData() {
     const getDocument = async () => {
       try {
         const docRef =
-          options[family] == "Me"
+          options[family] == "Self"
             ? doc(db, "usersMealDecriptions", id)
             : doc(db, `users's${options[family]}`, id);
         const docSnap = await getDoc(docRef);
@@ -84,13 +84,13 @@ function MealData() {
       const Allergies = await userData.allegries;
       const q = query(
         collection(db, "meal"),
-        foodPrefrence
-          ? where("spiciness", "==", await userData.foodPreference)
-          : where("allData", "==", "all"),
+        // foodPrefrence
+        //   ? where("spiciness", "==", await userData.foodPreference)
+        //   : where("allData", "==", "all"),
         diet
           ? where("type", "==", await userData.dietary)
           : where("allData", "==", "all"),
-        Allergies.length > 0
+        Allergies?.length > 0
           ? where("allergy", "not-in", await userData.allegries)
           : where("allData", "==", "all")
       );
@@ -106,7 +106,7 @@ function MealData() {
       console.log("pre filter", filterData);
       const filteredData = filterData.filter((item) =>
         medicalArray.length > 0 && deficencyArray.length > 0
-          ? !medicalArray.includes(item.medCond) &&
+          ? !medicalArray.includes(item.medCond) ||
             deficencyArray.includes(item.contains)
           : !medicalArray.includes(item.medCond) ||
             deficencyArray.includes(item.contains)
@@ -116,10 +116,10 @@ function MealData() {
     };
     GetFilteredMeal();
   }, [
-    userData.dietary,
-    userData.foodPreference,
-    userData.medical,
-    userData.allegries,
+    userData?.dietary,
+    userData?.foodPreference,
+    userData?.medical,
+    userData?.allegries,
     family,
   ]);
 
@@ -131,7 +131,7 @@ function MealData() {
   const handleSave = async () => {
     // Create an initial document to update.
     const ref =
-      options[family] == "Me"
+      options[family] == "Self"
         ? doc(db, "usersMealDecriptions", id)
         : doc(db, `users's${options[family]}`, id);
     //doc(db, "usersMealDecriptions", id);
@@ -149,10 +149,10 @@ function MealData() {
     }
   };
 
-if(options[family] != "Me"){
+if(options[family] != "Self"){
   setTimeout(() => {
     handleSave();
-  }, 3000);
+  }, 4000);
 }
 
   setTimeout(() => {

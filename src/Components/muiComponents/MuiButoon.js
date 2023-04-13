@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { SecondaryColor, textColor } from '../../Color.Config';
 
-const options = ["Me",'Son', 'Wife', 'Daughter'];
+const options = ["Self",'Son', 'Wife', 'Daughter'];
 
 export default function MuiButton(props) {
   const {setSelectedIndex, selectedIndex} = props;

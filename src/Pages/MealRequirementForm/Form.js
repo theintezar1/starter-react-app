@@ -54,7 +54,7 @@ function Form() {
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [bmi, setBmi] = useState("");
-  const [forWhom, setForWhom] = useState("Me");
+  const [forWhom, setForWhom] = useState("Self");
   const [relation, setRelation] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -68,13 +68,13 @@ function Form() {
         setBmi(`That you are too thin.${RoundBmi}`);
       }
       if (finalBmi > 18.5 && finalBmi < 25) {
-        setBmi(`That you are healthy.${RoundBmi}`);
+        setBmi(`${RoundBmi}`);
       }
       if (finalBmi > 25) {
-        setBmi(`That you have overweight.${RoundBmi}`);
+        setBmi(`${RoundBmi}`);
       }
     } else {
-      alert("Please Fill in everything correctly");
+      console.log("Fill Right Data")
     }
   }
 
@@ -93,7 +93,7 @@ function Form() {
     try {
       const userId = await auth?.currentUser?.uid;
       const ref =
-        forWhom == "Me"
+        forWhom == "Self"
           ? doc(db, "usersMealDecriptions", userId)
           : doc(db, `users's${relation}`, userId);
       var today = new Date();
@@ -134,7 +134,7 @@ function Form() {
     const getDocument = async () => {
       try {
         const docRef =
-          forWhom == "Me"
+          forWhom == "Self"
             ? doc(db, "usersMealDecriptions", id)
             : doc(db, `users's${relation}`, id);
         //doc(db, "usersMealDecriptions", id);
@@ -285,7 +285,7 @@ function Form() {
             setInput={setRelation}
             input={relation}
             data={relationData}
-            disable={forWhom == "Me" ? true : false}
+            disable={forWhom == "Self" ? true : false}
           />
           <TextFields
             name="Age"

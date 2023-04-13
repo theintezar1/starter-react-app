@@ -20,7 +20,7 @@ const BUTTON = styled(Button)({
   },
 });
 
-const options = ["Me", "Son", "Wife", "Daughter"];
+const options = ["Self", "Son", "Wife", "Daughter"];
 
 function MealCalender() {
 	let index = localStorage.getItem("index");
@@ -34,7 +34,7 @@ function MealCalender() {
     const getDocument = async () => {
       try {
         const docRef =
-          options[family] == "Me"
+          options[family] == "Self"
             ? doc(db, "usersMealDecriptions", id)
             : doc(db, `users's${options[family]}`, id);
         const docSnap = await getDoc(docRef);
@@ -107,7 +107,7 @@ function MealCalender() {
   const saveMealPlan = async () => {
     try {
       const collection =
-        options[family] == "Me"
+        options[family] == "Self"
           ? "usersMealDecriptions"
           : `users's${options[family]}`;
       const ref = doc(db, collection, id);
