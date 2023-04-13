@@ -57,32 +57,82 @@ export default function RecipeReviewCard(props) {
         position: "relative",
       }}
     >
-
-      <p
-      style={{padding:"10px", color:textColor}}
-      >{name}</p>
-      <CardMedia component="img" height="194" image={image} alt="Paella dish" />
-      <CardContent>
-        <p
+      {/* <p
         style={{
+          padding: "10px",
+          color: textColor,
           fontSize: "14px",
-          lineHeight: "20px",
-          color: "#504f6b",
-          margintop: "0",
+          backgroundColor: "green",
           textAlign: "justify",
           display: "-webkit-box",
           WebkitBoxOrient: "vertical",
-          WebkitLineClamp: 2,
+          WebkitLineClamp: 1,
           overflow: "hidden",
           textOverflow: "ellipsis",
+          whiteSpace:"nowrap"
         }}
+      >
+        {name}
+      </p> */}
+      <p
+  style={{
+    padding: "10px",
+    color: textColor,
+    fontSize: "14px",
+    color: "#504f6b",
+    lineHeight: "20px",
+    textAlign: "justify",
+    whiteSpace: "nowrap", // Set whiteSpace to nowrap
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    position: "relative", // Add position relative for pseudo elements
+  }}
+>
+  {name}
+  <span
+    style={{
+      position: "absolute", // Add position absolute to pseudo elements
+      top: 0,
+      right: "-20px", // Adjust the spacing between dots as needed
+      content: '""',
+      display: "block",
+      width: "10px",
+      height: "100%",
+      background: "white", // Set the background color to match the background of your UI
+    }}
+  ></span>
+  <span
+    style={{
+      position: "absolute", // Add position absolute to pseudo elements
+      top: 0,
+      left: "-20px", // Adjust the spacing between dots as needed
+      content: '""',
+      display: "block",
+      width: "10px",
+      height: "100%",
+      background: "white", // Set the background color to match the background of your UI
+    }}
+  ></span>
+</p>
+
+      <CardMedia component="img" height="194" image={image} alt="Paella dish" />
+      <CardContent>
+        <p
+          style={{
+            fontSize: "13px",
+            lineHeight: "20px",
+            color: "#504f6b",
+            margintop: "0",
+            textAlign: "justify",
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
         >
-        {desc}
+          {desc}
         </p>
-
-
-
-
       </CardContent>
       <CardActions disableSpacing>
         <IconButton

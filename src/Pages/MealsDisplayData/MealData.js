@@ -157,7 +157,7 @@ if(options[family] != "Self"){
 
   setTimeout(() => {
     handleSave();
-  }, 3000);
+  }, 4000);
 
   return (
     <Box sx={{ bgcolor: PrimaryColor, minHeight: "100vh" }}>
