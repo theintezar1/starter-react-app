@@ -103,7 +103,7 @@ function MealData() {
         ...doc.data(),
       }));
 
-      // console.log("pre filter", filterData);
+      console.log("pre filter", filterData);
       const filteredData = filterData.filter((item) =>
         medicalArray.length > 0 && deficencyArray.length > 0
           ? !medicalArray.includes(item.medCond) &&
@@ -111,7 +111,7 @@ function MealData() {
           : !medicalArray.includes(item.medCond) ||
             deficencyArray.includes(item.contains)
       );
-      // console.log("after filter", filteredData);
+      console.log("after filter", filteredData);
       setMealList(filteredData);
     };
     GetFilteredMeal();
