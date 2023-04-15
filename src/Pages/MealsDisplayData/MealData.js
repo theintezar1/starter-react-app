@@ -21,6 +21,7 @@ import { db } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 import { loadingButtonClasses } from "@mui/lab";
 import MuiButton from "../../Components/muiComponents/MuiButoon";
+import FinchFitloding from "../../Components/Loding/FinchFitloding";
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -40,7 +41,8 @@ function MealData() {
   const [userData, setUserData] = useState([]);
   const [mealList, setMealList] = useState([]);
   const [unsubscribe, setUnsubscribe] = useState(null);
-  const [family, setFamyly] = useState(index);
+  const [family, setFamyly] = useState(index?index:0);
+  const [loading, setLoading] = useState(true);
   let id = localStorage.getItem("userId");
 
   //set index in local storage 
@@ -71,12 +73,14 @@ function MealData() {
       }
     };
     getDocument();
-  }, [family]);
+  }, [family, index]);
 
   console.log("userData", userData);
 
   useEffect(() => {
+
     const GetFilteredMeal = async () => {
+      try{
       const medicalArray = await userData.medical;
       const deficencyArray = await userData.deficiency;
       const foodPrefrence = await userData.foodPreference;
@@ -95,9 +99,6 @@ function MealData() {
           : where("allData", "==", "all")
       );
 
-      // console.log("medical", medicalArray);
-      // console.log("deficency", deficencyArray);
-
       const data = await getDocs(q);
       const filterData = data.docs.map((doc) => ({
         ...doc.data(),
@@ -105,7 +106,7 @@ function MealData() {
 
       console.log("pre filter", filterData);
       const filteredData = filterData.filter((item) =>
-        medicalArray.length > 0 && deficencyArray.length > 0
+        medicalArray?.length > 0 && deficencyArray?.length > 0
           ? !medicalArray.includes(item.medCond) ||
             deficencyArray.includes(item.contains)
           : !medicalArray.includes(item.medCond) ||
@@ -113,14 +114,20 @@ function MealData() {
       );
       console.log("after filter", filteredData);
       setMealList(filteredData);
+      setLoading(false)
+    } catch(error){
+      console.log(error)
+      setLoading(false)
+    }
     };
     GetFilteredMeal();
   }, [
     userData?.dietary,
-    userData?.foodPreference,
+    // userData?.foodPreference,
     userData?.medical,
     userData?.allegries,
-    family,
+    index
+
   ]);
 
   const lunch = mealList.filter((item) => item.timeOfFood == "L");
@@ -194,6 +201,24 @@ if(options[family] != "Self"){
           Meal Calender
         </BUTTON>
       </Box>
+      {loading ? (
+        <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems:"center",
+          flexWrap: "wrap",
+          position: "relative",
+          minHeight:"100vh",
+          top: 70,
+          backgroundColor: PrimaryColor,
+          pt:1,
+          pb:5,
+        }}
+        >
+          <FinchFitloding/>
+        </Box>
+      ) : (
       <Box
         sx={{
           display: "flex",
@@ -207,6 +232,7 @@ if(options[family] != "Self"){
           pb:5,
         }}
       >
+        
         {mealList ? (
           mealList.map((doc, index) => (
             <Box key={index}>
@@ -229,6 +255,7 @@ if(options[family] != "Self"){
           <h1></h1>
         )}
       </Box>
+      )}
     </Box>
   );
 }

@@ -125,6 +125,7 @@ function Form() {
       alert("Show my meal plan");
       navigate("/meal_list");
       localStorage.setItem("userId", userId);
+      window.location.reload()
     } catch (error) {
       alert(error);
     }
