@@ -152,7 +152,7 @@ function Signin() {
                 fontSize: "18px",
               }}
             >
-              Signin
+              Signup
             </button>
             <GoogleButton
               onClick={signInWithGoogle}
