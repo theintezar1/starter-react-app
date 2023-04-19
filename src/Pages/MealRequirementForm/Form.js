@@ -174,46 +174,8 @@ function Form() {
         flexDirection: { sm: "row", xs: "column" },
       }}
     >
-      <Button
-        sx={{
-          color: textColor,
-          position: "absolute",
-          top: { sm: "10px", xs: "0px" },
-          right: { sm: "10px", xs: "0px" },
-          border: "none",
-          color: textColor,
-          fontWeight: "400",
-          textTransform: "none",
-          fontFamily: "Josefin Sans, sans-serif",
-          height: "30px",
-        }}
-        endIcon={<SkipNextIcon />}
-        onClick={() => {
-          navigate("/meal_list");
-        }}
-      >
-        Skip
-      </Button>
+
       <Box width={"100%"} sx={{ marginTop: { sm: "0", xs: "20px" } }}>
-        {/* <h1
-          style={{
-            color: textColor,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <span
-            style={{
-              color: SecondaryColor,
-              padding: "5px",
-              backgroundColor: textColor,
-            }}
-          >
-            HELP
-          </span>{" "}
-          <span style={{ padding: "5px" }}> US KNOW YOU!</span>
-        </h1> */}
 
         <Box
           sx={{
