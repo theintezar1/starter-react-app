@@ -56,11 +56,11 @@ function MealData() {
   const options = [...new Set(dataArray)];
 
   //set index in local storage
-  if (options[family] == "Son") {
+  if (family == "1") {
     localStorage.setItem("index", 1);
-  } else if (options[family] == "Wife") {
+  } else if (family == "2") {
     localStorage.setItem("index", 2);
-  } else if (options[family] == "Daughter") {
+  } else if (family == "3") {
     localStorage.setItem("index", 3);
   } else {
     localStorage.setItem("index", 0);
