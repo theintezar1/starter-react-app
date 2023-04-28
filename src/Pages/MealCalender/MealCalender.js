@@ -253,7 +253,7 @@ function MealCalender() {
       <Navbaar />
       <Box sx={{ position: "relative", top: "100px" }}>
         <h1 style={{ color: textColor, marginBottom: "20px" }}>
-         <span style={{color:"blue"}}>Week</span> <span style={{color:"red"}}>Meal</span> <span style={{color:"green"}}>Table</span> 
+         <span style={{color:"#b14325"}}>Week</span> <span style={{color:"#b14325"}}>Meal</span> <span style={{color:"#b14325"}}>Table</span> 
         </h1>
         <table>
           <thead>
