@@ -36,7 +36,6 @@ const BUTTON = styled(Button)({
   },
 });
 
-const options = ["Self", "Son", "Wife", "Daughter"];
 function abc(){}
 
 function MealCalender() {
@@ -71,8 +70,11 @@ function MealCalender() {
 
   
 
-
+  //get data from local storage
+  let name = localStorage.getItem("name");
   let id = localStorage.getItem("userId");
+  const dataArray = JSON.parse(name);
+  const options = [...new Set(dataArray)];
   useEffect(() => {
     const getDocument = async () => {
       try {
@@ -251,7 +253,7 @@ function MealCalender() {
       <Navbaar />
       <Box sx={{ position: "relative", top: "100px" }}>
         <h1 style={{ color: textColor, marginBottom: "20px" }}>
-          Week Meal Table
+         <span style={{color:"blue"}}>Week</span> <span style={{color:"red"}}>Meal</span> <span style={{color:"green"}}>Table</span> 
         </h1>
         <table>
           <thead>
@@ -279,7 +281,7 @@ function MealCalender() {
                     selected={true}
                     input={mondayB}
                     setInput={setMondayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -336,7 +338,7 @@ function MealCalender() {
                     selected={true}
                     input={tuesdayB}
                     setInput={settuesdayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -393,7 +395,7 @@ function MealCalender() {
                     selected={true}
                     input={wednesdayB}
                     setInput={setwednesdayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -450,7 +452,7 @@ function MealCalender() {
                     selected={true}
                     input={thursdayB}
                     setInput={setthursdayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -508,7 +510,7 @@ function MealCalender() {
                     selected={true}
                     input={fridayB}
                     setInput={setfridayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -565,7 +567,7 @@ function MealCalender() {
                     selected={true}
                     input={saturdayB}
                     setInput={setsaturdayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -622,7 +624,7 @@ function MealCalender() {
                     selected={true}
                     input={sundayB}
                     setInput={setsundayB}
-                    data={userData?.saveMealData}
+                    data={userData?.breakFast}
                   />
                 </td>
               )}
@@ -670,16 +672,19 @@ function MealCalender() {
       </Box>
 
       {/* edit icon */}
+      <Box sx={{display:"flex", alignItems:"center", position: "absolute", top: "90px", right: "10px", gap:"3px" }}>
       <IconButton
         onClick={() => {
           setEdit(false);
           !userData?.weekPlan?saveMealPlan("data"):abc()
         }}
         aria-label="share"
-        sx={{ position: "absolute", top: "90px", right: "10px" }}
+        sx={{}}
       >
         <EditIcon sx={{ color: textColor }} />
       </IconButton>
+      <span style={{fontSize:"15px"}}>Edit</span>
+      </Box>
       
       {/* Bottom navbar */}
       <Box

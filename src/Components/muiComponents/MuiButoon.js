@@ -10,13 +10,19 @@ import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import { SecondaryColor, textColor } from '../../Color.Config';
 
-const options = ["Self",'Son', 'Wife', 'Daughter'];
+// const options = ["Self",'Son', 'Wife', 'Daughter'];
 
 export default function MuiButton(props) {
   const {setSelectedIndex, selectedIndex} = props;
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 //   const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+  //get data from local storage
+  let name = localStorage.getItem("name");
+  let id = localStorage.getItem("userId");
+  const dataArray = JSON.parse(name);
+  const options = [...new Set(dataArray)];
 
   console.log("opetion value",selectedIndex)
 

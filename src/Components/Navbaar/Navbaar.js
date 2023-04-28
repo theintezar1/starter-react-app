@@ -54,7 +54,7 @@ const P = styled("p")({
   fontSize: "14px",
 });
 
-function Navbaar() {
+function Navbaar(props) {
   let navigate = useNavigate();
 
   const handleonclickLogOut = async () => {
@@ -97,6 +97,8 @@ function Navbaar() {
         src={pinchFit}
         alt="Pinch fit"
       />
+
+      <p>{props.title}</p>
 
       <Avatar
         aria-controls={open ? "basic-menu" : undefined}

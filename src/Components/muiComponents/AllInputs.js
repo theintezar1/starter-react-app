@@ -10,16 +10,16 @@ function TextFields(props) {
         select={selected}
         sx={{ width: "250px" }}
         size="small"
-        disabled={disable}
+        // disabled={disable}
         label={name}
         value={input}
         onChange={(e) => {
           setInput(e.target.value);
         }}
       >
-        <MenuItem key={""} value={""}>
+        {name!="Name*" && name!="For Whom"&&name!="Age"&&<MenuItem key={""} value={""}>
           Unselect
-        </MenuItem>
+        </MenuItem>}
         {data?.map((option) => (
           <MenuItem
             key={name == "Height" ? option.key : option}

@@ -16,6 +16,7 @@ import {
   query,
   getDocs,
   where,
+  updateDoc,
 } from "firebase/firestore";
 import {
   ageData,
@@ -36,6 +37,9 @@ import {
 import { set } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
+import LoadingButton from "@mui/lab/LoadingButton";
+
+const storedName = []; 
 
 function Form() {
   const [age, setAge] = useState("");
@@ -56,7 +60,10 @@ function Form() {
   const [bmi, setBmi] = useState("");
   const [forWhom, setForWhom] = useState("Self");
   const [relation, setRelation] = useState("");
+  const [nameOfFamily, setnameOfFamily] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  console.log(nameOfFamily)
 
   // calculate bmi function
   function calculateBmi() {
@@ -74,7 +81,7 @@ function Form() {
         setBmi(`${RoundBmi}`);
       }
     } else {
-      console.log("Fill Right Data")
+      console.log("Fill Right Data");
     }
   }
 
@@ -83,9 +90,11 @@ function Form() {
       calculateBmi();
     }, 1000);
   }
-  // calculate bmi function
 
+
+  //Get Value from localStorage
   let id = localStorage.getItem("userId");
+  let name = localStorage.getItem("name");
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -104,6 +113,7 @@ function Form() {
       today = mm + "/" + dd + "/" + yyyy;
 
       await setDoc(ref, {
+        relation,
         age,
         gender,
         town,
@@ -122,14 +132,45 @@ function Form() {
         bmi,
         date: today,
       });
-      alert("Show my meal plan");
+      // alert("Show my meal plan");
       navigate("/meal_list");
       localStorage.setItem("userId", userId);
-      window.location.reload()
+      addingListOfFamily()
+
+  // Parse current value into array
+  const myArray = name ? JSON.parse(name) : [];
+
+  // Add new value to array
+  forWhom=="Self"? myArray.push("Self"): myArray.push(relation)
+ 
+
+  // Serialize updated array
+  const updatedValue = JSON.stringify(myArray);
+
+  // Store updated value in localStorage
+ localStorage.setItem("name", updatedValue);
+
+      window.location.reload();
     } catch (error) {
       alert(error);
     }
   };
+
+const dataArray = JSON.parse(name);
+const uniqueValues = [...new Set(dataArray)];
+console.log("stored Data",uniqueValues);
+
+//update add user plan
+const addingListOfFamily = async() =>{
+  try {
+    const collection = "userMembers"
+    const ref = doc(db, collection, id);
+    await setDoc(ref,{uniqueValues});
+  } catch (error) {
+    console.error(error);
+    // handle error here
+  }
+}
 
   useEffect(() => {
     const getDocument = async () => {
@@ -156,6 +197,39 @@ function Form() {
         setFoodPreference(docSnap.data().foodPreference);
         setHeight(docSnap.data().height);
         setWeight(docSnap.data().weight);
+        // setRelation(docSnap.data().relation);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDocument();
+  }, [ forWhom, relation]);
+
+  useEffect(() => {
+    const getDocument = async () => {
+      try {
+        const docRef =
+          forWhom == "Self"
+            ? doc(db, "usersMealDecriptions", id)
+            : doc(db, `users's${relation}`, id);
+            const docSnap = await getDoc(docRef);
+        setRelation(docSnap.data().relation);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getDocument();
+  }, [forWhom]);
+
+  //getuser list
+  useEffect(() => {
+    const getDocument = async () => {
+      try {
+        const docRef =doc(db, "userMembers", id)
+        //doc(db, "usersMealDecriptions", id);
+        const docSnap = await getDoc(docRef);
+        console.log("list",docSnap.data());
+        setnameOfFamily(docSnap.data().uniqueValues)
       } catch (error) {
         console.log(error);
       }
@@ -174,41 +248,39 @@ function Form() {
         flexDirection: { sm: "row", xs: "column" },
       }}
     >
-
       <Box width={"100%"} sx={{ marginTop: { sm: "0", xs: "20px" } }}>
-
         <Box
           sx={{
             color: textColor,
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            fontSize:{sm:"30px", xs:"25px"},
+            fontSize: { sm: "30px", xs: "25px" },
           }}
         >
           <p
             style={{
               color: SecondaryColor,
               backgroundColor: textColor,
-              display:"flex", 
-              alignItems:"center",
-              justifyContent:"center",
-              padding:"3px",
-              paddingTop:"8px"
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "3px",
+              paddingTop: "8px",
             }}
           >
             HELP{" "}
           </p>{" "}
           <p
             style={{
-              display:"flex", 
-              alignItems:"center",
-              justifyContent:"center",
-              padding:"3px",
-              paddingTop:"8px"
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "3px",
+              paddingTop: "8px",
             }}
           >
-          US KNOW YOU!
+            US KNOW YOU!
           </p>
         </Box>
       </Box>
@@ -242,14 +314,14 @@ function Form() {
             input={forWhom}
             data={forWhomData}
           />
-          <TextFields
-            name="Relation with family"
-            selected={true}
+         <TextFields
+            name="Name*"
+            selected={forWhom=="List of Family"?true:false}
             setInput={setRelation}
             input={relation}
-            data={relationData}
+            data={uniqueValues}
             disable={forWhom == "Self" ? true : false}
-          />
+          /> 
           <TextFields
             name="Age"
             selected={true}
@@ -336,24 +408,25 @@ function Form() {
           <TextFields name="Weight (kg)" setInput={setWeight} input={weight} />
           <TextFields name="BMI" setInput={setBmi} input={bmi} />
         </Box>
-        <Button
+        <LoadingButton
           style={{
             width: "250px",
             backgroundColor: SecondaryColor,
             border: "none",
             color: textColor,
-            fontWeight: "600",
+            fontWeight: "500",
             fontSize: "18px",
             margin: "auto",
             marginTop: "-20px",
             textTransform: "none",
             fontFamily: "Josefin Sans, sans-serif",
           }}
+          size="small"
           onClick={handleSubmit}
+          loading={loading}
         >
-          Create Your Meal
-        </Button>
-        {/* <Button onClick={handleLogout}> logout </Button> */}
+         Show Meal Plan
+        </LoadingButton>
       </Box>
     </Box>
   );
