@@ -183,6 +183,17 @@ function MealCalender() {
     }
   };
 
+  //download pdf
+  const downloadFile = () => {
+    const url = 'https://pinchfit.vercel.app/calender_of_meal';
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'myfile.pdf');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   //update meal plan manually 
   const updateMealPlan = async (data) => {
     try {
@@ -685,6 +696,8 @@ function MealCalender() {
       </IconButton>
       <span style={{fontSize:"15px"}}>Edit</span>
       </Box>
+
+      
       
       {/* Bottom navbar */}
       <Box
@@ -704,6 +717,9 @@ function MealCalender() {
         <MuiButton setSelectedIndex={setFamyly} selectedIndex={family} />
         {/* <JsonToCsv mealData={mealList} /> */}
         <BUTTON onClick={saveMealPlan}>Change Meal</BUTTON>
+        <div>
+      <button onClick={downloadFile}>Download File</button>
+    </div>
       </Box>
     </Box>
   );
