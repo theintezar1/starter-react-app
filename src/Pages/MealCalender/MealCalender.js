@@ -22,6 +22,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import MealInput, {
   TextFields,
 } from "../../Components/muiComponents/AllInputs";
+import { Document, Page, pdfjs } from 'react-pdf';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -37,6 +40,7 @@ const BUTTON = styled(Button)({
 });
 
 function abc(){}
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function MealCalender() {
   let index = localStorage.getItem("index");
@@ -45,6 +49,9 @@ function MealCalender() {
   const [weekPlan, setWeekPlan] = useState({});
   const [family, setFamyly] = useState(index);
   const [edit, setEdit] = useState(true);
+
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const [mondayB, setMondayB] = useState();
   const [mondayL, setMondayL] = useState();
@@ -68,6 +75,23 @@ function MealCalender() {
   const [sundayL, setsundayL] = useState();
   const [sundayD, setsundayD] = useState();
 
+  //
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
+    //download pdf
+    const handleDownload = () => {
+      const input = document.getElementById('download-container');
+      html2canvas(input, { scale: 2 }).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save('download.pdf');
+      });
+    };
   
 
   //get data from local storage
@@ -183,16 +207,7 @@ function MealCalender() {
     }
   };
 
-  //download pdf
-  const downloadFile = () => {
-    const url = 'https://pinchfit.vercel.app/calender_of_meal';
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'myfile.pdf');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+
 
   //update meal plan manually 
   const updateMealPlan = async (data) => {
@@ -266,7 +281,7 @@ function MealCalender() {
         <h1 style={{ color: textColor, marginBottom: "20px" }}>
          <span style={{color:"#b14325"}}>Week</span> <span style={{color:"#b14325"}}>Meal</span> <span style={{color:"#b14325"}}>Table</span> 
         </h1>
-        <table>
+        <table id="download-container">
           <thead>
             <tr>
               <th>Day</th>
@@ -718,7 +733,8 @@ function MealCalender() {
         {/* <JsonToCsv mealData={mealList} /> */}
         <BUTTON onClick={saveMealPlan}>Change Meal</BUTTON>
         <div>
-      <button onClick={downloadFile}>Download File</button>
+     {/* Download File */}
+     <BUTTON onClick={handleDownload}>Download PDF</BUTTON>
     </div>
       </Box>
     </Box>
