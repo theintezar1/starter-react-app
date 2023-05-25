@@ -22,9 +22,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import MealInput, {
   TextFields,
 } from "../../Components/muiComponents/AllInputs";
-import { Document, Page, pdfjs } from 'react-pdf';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { Document, Page, pdfjs } from "react-pdf";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import CancelIcon from "@mui/icons-material/Cancel";
+import "./meal.css"
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -39,7 +42,7 @@ const BUTTON = styled(Button)({
   },
 });
 
-function abc(){}
+function abc() {}
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function MealCalender() {
@@ -74,25 +77,26 @@ function MealCalender() {
   const [sundayB, setsundayB] = useState();
   const [sundayL, setsundayL] = useState();
   const [sundayD, setsundayD] = useState();
+  const [groceryShow, SetGroceryShow] = useState(false);
+  const [groceryShowunique, SetGroceryShowunique] = useState(false);
 
   //
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
   };
 
-    //download pdf
-    const handleDownload = () => {
-      const input = document.getElementById('download-container');
-      html2canvas(input, { scale: 2 }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('download.pdf');
-      });
-    };
-  
+  //download pdf
+  const handleDownload = () => {
+    const input = document.getElementById("download-container");
+    html2canvas(input, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("download.pdf");
+    });
+  };
 
   //get data from local storage
   let name = localStorage.getItem("name");
@@ -108,27 +112,73 @@ function MealCalender() {
             : doc(db, `users's${options[family]}`, id);
         const docSnap = await getDoc(docRef);
         setUserData(docSnap.data());
-        setMondayB(docSnap.data().weekPlan.Monday.breakfast || weekPlan.Monday.breakfast)
-        setMondayL(docSnap.data().weekPlan.Monday.lunch || weekPlan.Monday.lunch)
-        setMondayD(docSnap.data().weekPlan.Monday.dinner || weekPlan.Monday.dinner)
-        settuesdayB(docSnap.data().weekPlan.Tuesday.breakfast || weekPlan.Tuesday.breakfast)
-        settuesdayL(docSnap.data().weekPlan.Tuesday.lunch || weekPlan.Tuesday.lunch)
-        settuesdayD(docSnap.data().weekPlan.Tuesday.dinner || weekPlan.Tuesday.dinner)
-        setwednesdayB(docSnap.data().weekPlan.Wednesday.breakfast || weekPlan.Wednesday.breakfast)
-        setwednesdayL(docSnap.data().weekPlan.Wednesday.lunch || weekPlan.Wednesday.lunch)
-        setwednesdayD(docSnap.data().weekPlan.Wednesday.dinner || weekPlan.Wednesday.dinner)
-        setthursdayB(docSnap.data().weekPlan.Thursday.breakfast || weekPlan.Thursday.breakfast)
-        setthursdayL(docSnap.data().weekPlan.Thursday.lunch || weekPlan.Thursday.lunch)
-        setthursdayD(docSnap.data().weekPlan.Thursday.dinner || weekPlan.Thursday.dinner)
-        setfridayB(docSnap.data().weekPlan.Friday.breakfast || weekPlan.Friday.breakfast)
-        setfridayL(docSnap.data().weekPlan.Friday.lunch || weekPlan.Friday.lunch)
-        setfridayD(docSnap.data().weekPlan.Friday.dinner || weekPlan.Friday.dinner)
-        setsaturdayB(docSnap.data().weekPlan.Saturday.breakfast || weekPlan.Saturday.breakfast)
-        setsaturdayL(docSnap.data().weekPlan.Saturday.lunch || weekPlan.Saturday.lunch)
-        setsaturdayD(docSnap.data().weekPlan.Saturday.dinner || weekPlan.Saturday.dinner)
-        setsundayB(docSnap.data().weekPlan.Sunday.breakfast || weekPlan.Sunday.breakfast)
-        setsundayL(docSnap.data().weekPlan.Sunday.lunch || weekPlan.Sunday.lunch)
-        setsundayD(docSnap.data().weekPlan.Sunday.dinner || weekPlan.Sunday.dinner)
+        setMondayB(
+          docSnap.data().weekPlan.Monday.breakfast || weekPlan.Monday.breakfast
+        );
+        setMondayL(
+          docSnap.data().weekPlan.Monday.lunch || weekPlan.Monday.lunch
+        );
+        setMondayD(
+          docSnap.data().weekPlan.Monday.dinner || weekPlan.Monday.dinner
+        );
+        settuesdayB(
+          docSnap.data().weekPlan.Tuesday.breakfast ||
+            weekPlan.Tuesday.breakfast
+        );
+        settuesdayL(
+          docSnap.data().weekPlan.Tuesday.lunch || weekPlan.Tuesday.lunch
+        );
+        settuesdayD(
+          docSnap.data().weekPlan.Tuesday.dinner || weekPlan.Tuesday.dinner
+        );
+        setwednesdayB(
+          docSnap.data().weekPlan.Wednesday.breakfast ||
+            weekPlan.Wednesday.breakfast
+        );
+        setwednesdayL(
+          docSnap.data().weekPlan.Wednesday.lunch || weekPlan.Wednesday.lunch
+        );
+        setwednesdayD(
+          docSnap.data().weekPlan.Wednesday.dinner || weekPlan.Wednesday.dinner
+        );
+        setthursdayB(
+          docSnap.data().weekPlan.Thursday.breakfast ||
+            weekPlan.Thursday.breakfast
+        );
+        setthursdayL(
+          docSnap.data().weekPlan.Thursday.lunch || weekPlan.Thursday.lunch
+        );
+        setthursdayD(
+          docSnap.data().weekPlan.Thursday.dinner || weekPlan.Thursday.dinner
+        );
+        setfridayB(
+          docSnap.data().weekPlan.Friday.breakfast || weekPlan.Friday.breakfast
+        );
+        setfridayL(
+          docSnap.data().weekPlan.Friday.lunch || weekPlan.Friday.lunch
+        );
+        setfridayD(
+          docSnap.data().weekPlan.Friday.dinner || weekPlan.Friday.dinner
+        );
+        setsaturdayB(
+          docSnap.data().weekPlan.Saturday.breakfast ||
+            weekPlan.Saturday.breakfast
+        );
+        setsaturdayL(
+          docSnap.data().weekPlan.Saturday.lunch || weekPlan.Saturday.lunch
+        );
+        setsaturdayD(
+          docSnap.data().weekPlan.Saturday.dinner || weekPlan.Saturday.dinner
+        );
+        setsundayB(
+          docSnap.data().weekPlan.Sunday.breakfast || weekPlan.Sunday.breakfast
+        );
+        setsundayL(
+          docSnap.data().weekPlan.Sunday.lunch || weekPlan.Sunday.lunch
+        );
+        setsundayD(
+          docSnap.data().weekPlan.Sunday.dinner || weekPlan.Sunday.dinner
+        );
       } catch (error) {
         console.log(error);
       }
@@ -207,9 +257,7 @@ function MealCalender() {
     }
   };
 
-
-
-  //update meal plan manually 
+  //update meal plan manually
   const updateMealPlan = async (data) => {
     try {
       const collection =
@@ -217,45 +265,45 @@ function MealCalender() {
           ? "usersMealDecriptions"
           : `users's${options[family]}`;
       const ref = doc(db, collection, id);
-      await updateDoc(ref, 
-    {  weekPlan: {
-          "Sunday": {
-              "lunch":sundayL,
-              "breakfast":sundayB,
-              "dinner": sundayD
+      await updateDoc(ref, {
+        weekPlan: {
+          Sunday: {
+            lunch: sundayL,
+            breakfast: sundayB,
+            dinner: sundayD,
           },
-          "Wednesday": {
-              "dinner": wednesdayD,
-              "breakfast": wednesdayB,
-              "lunch": wednesdayL
+          Wednesday: {
+            dinner: wednesdayD,
+            breakfast: wednesdayB,
+            lunch: wednesdayL,
           },
-          "Saturday": {
-              "dinner":saturdayD,
-              "breakfast": saturdayB,
-              "lunch": saturdayL
+          Saturday: {
+            dinner: saturdayD,
+            breakfast: saturdayB,
+            lunch: saturdayL,
           },
-          "Thursday": {
-              "lunch": thursdayL,
-              "breakfast": thursdayB,
-              "dinner": thursdayD
+          Thursday: {
+            lunch: thursdayL,
+            breakfast: thursdayB,
+            dinner: thursdayD,
           },
-          "Tuesday": {
-              "breakfast": tuesdayB ,
-              "dinner":tuesdayD,
-              "lunch":tuesdayL 
+          Tuesday: {
+            breakfast: tuesdayB,
+            dinner: tuesdayD,
+            lunch: tuesdayL,
           },
-          "Monday": {
-              "lunch": mondayL,
-              "breakfast": mondayB,
-              "dinner": mondayD
+          Monday: {
+            lunch: mondayL,
+            breakfast: mondayB,
+            dinner: mondayD,
           },
-          "Friday": {
-              "breakfast": fridayB,
-              "dinner": fridayD,
-              "lunch": fridayL
-          }
-      }}
-       ); 
+          Friday: {
+            breakfast: fridayB,
+            dinner: fridayD,
+            lunch: fridayL,
+          },
+        },
+      });
       window.location.reload();
     } catch (error) {
       console.error(error);
@@ -274,12 +322,37 @@ function MealCalender() {
     localStorage.setItem("index", 0);
   }
 
+  //grocery unique array
+  const mainIngList = Object.keys(weekPlan).flatMap((day) =>
+    ["breakfast", "lunch", "dinner"].map(
+      (meal) =>
+        userData?.weekPlan?.[day]?.[meal]?.mainIng ||
+        weekPlan[day]?.[meal]?.mainIng
+    )
+  );
+
+  const uniqueGroceries = Array.from(
+    new Set(
+      mainIngList
+        .flatMap((items) => items.split(","))
+        .map((item) => item.trim())
+    )
+  );
+
+  console.log("unique", uniqueGroceries);
+
   return (
     <Box sx={{ bgcolor: PrimaryColor, minHeight: "100vh" }}>
       <Navbaar />
       <Box sx={{ position: "relative", top: "100px" }}>
-        <h1 style={{ color: textColor, marginBottom: "20px" }}>
-         <span style={{color:"#b14325"}}>Week</span> <span style={{color:"#b14325"}}>Meal</span> <span style={{color:"#b14325"}}>Table</span> 
+        <h1
+          style={{
+            color: "#b14325",
+            marginBottom: "20px",
+            marginTop: { xs: "200px", sm: "500px" },
+          }}
+        >
+          Week Meal Table
         </h1>
         <table id="download-container">
           <thead>
@@ -694,26 +767,233 @@ function MealCalender() {
             </tr>
           </tbody>
         </table>
-        <Button sx={{display:edit?"none":"block", margin:"auto", bgcolor:SecondaryColor, color:textColor,}} onClick={()=>{updateMealPlan()}}>save</Button>
+
+        {/* <table id="download-container">
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th>Breakfast</th>
+      <th>Lunch</th>
+      <th>Dinner</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${Object.entries(weekPlan).map(([day, meals]) => (
+    <tr key={day}>
+      <td>${day}</td>
+      ${Object.entries(meals).map(([meal, dishData]) => (
+      <td>
+        {edit ? (
+          <td>
+            {userData.weekPlan
+              ? userData?.weekPlan[day][meal]?.dish
+              : weekPlan[day][meal]?.dish}
+          </td>
+        ) : (
+          <td>
+            <MealInput
+              name={"Meal"}
+              selected={true}
+              input={getMealInput(day, meal)}
+              setInput={setMealInput(day, meal)}
+              data={getUserData(day, meal)}
+            />
+          </td>
+        )}
+      </td>
+      ))}
+    </tr>
+    ))}
+  </tbody>
+</table> */}
+
+        {/* Update meal button */}
+        <Button
+          sx={{
+            display: edit ? "none" : "block",
+            margin: "auto",
+            bgcolor: SecondaryColor,
+            color: textColor,
+          }}
+          onClick={() => {
+            updateMealPlan();
+          }}
+        >
+          save
+        </Button>
+      </Box>
+
+      {/* Grocery List Table */}
+      <Box
+        sx={{
+          background: "white",
+          position: "absolute",
+          top: "150px",
+          width: "100%",
+          height: { xs: "700px", sm: "300px" },
+          display: groceryShow ? "block" : "none",
+        }}
+      >
+        <table id="download-container">
+          {/* close button */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              position: "absolute",
+              top: "0px",
+              right: "0px",
+              gap: "1px",
+            }}
+          >
+            <IconButton
+              onClick={() => {
+                SetGroceryShow(false);
+              }}
+              aria-label="share"
+              sx={{}}
+            >
+              <CancelIcon sx={{ color: textColor }} />
+            </IconButton>
+          </Box>
+
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Breakfast</th>
+              <th>Lunch</th>
+              <th>Dinner</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Object.keys(weekPlan).map((day) => (
+              <tr key={day}>
+                <td>{day}</td>
+                {["breakfast", "lunch", "dinner"].map((meal) => (
+                  <td key={meal}>
+                    {userData?.weekPlan?.[day]?.[meal]?.mainIng ||
+                      weekPlan[day]?.[meal]?.mainIng}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </Box>
+
+      {/* Unique Grocery List */}
+      <Box
+        sx={{
+          position: "absolute",
+          background: "white",
+          width: "100%",
+          height: "100vh",
+          top: "98px",
+          display: groceryShowunique ? "block" : "none",
+        }}
+      >
+        {/* close button */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            position: "absolute",
+            top: "0px",
+            right: "0px",
+            gap: "1px",
+          }}
+        >
+          <IconButton
+            onClick={() => {
+              SetGroceryShowunique(false);
+            }}
+            aria-label="share"
+            sx={{}}
+          >
+            <CancelIcon sx={{ color: textColor }} />
+          </IconButton>
+        </Box>
+        
+      <div class="list-container" >
+    <ul class="list">
+      {uniqueGroceries.map((item)=>(
+      <li class="list-item">{item}</li>
+      ))}
+    </ul>
+  </div>
+
       </Box>
 
       {/* edit icon */}
-      <Box sx={{display:"flex", alignItems:"center", position: "absolute", top: "90px", right: "10px", gap:"3px" }}>
-      <IconButton
-        onClick={() => {
-          setEdit(false);
-          !userData?.weekPlan?saveMealPlan("data"):abc()
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "absolute",
+          top: "60px",
+          right: "10px",
+          gap: "1px",
         }}
-        aria-label="share"
-        sx={{}}
       >
-        <EditIcon sx={{ color: textColor }} />
-      </IconButton>
-      <span style={{fontSize:"15px"}}>Edit</span>
+        <IconButton
+          onClick={() => {
+            setEdit(false);
+            !userData?.weekPlan ? saveMealPlan("data") : abc();
+          }}
+          aria-label="share"
+          sx={{}}
+        >
+          <EditIcon sx={{ color: textColor }} />
+        </IconButton>
+        <span style={{ fontSize: "15px" }}>Edit</span>
       </Box>
 
-      
-      
+      {/* Grocery list icon */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "absolute",
+          top: "60px",
+          right: { sm: "100px", xs: "80px" },
+          gap: "1px",
+        }}
+      >
+        <IconButton
+          onClick={() => {
+            SetGroceryShow(true);
+          }}
+          aria-label="share"
+          sx={{}}
+        >
+          <LocalGroceryStoreIcon sx={{ color: textColor }} />
+        </IconButton>
+        <span style={{ fontSize: "15px" }}>Grocery</span>
+      </Box>
+
+      {/*Unique Grocery list icon */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          position: "absolute",
+          top: "60px",
+          right: { sm: "215px", xs: "180px" },
+          gap: "1px",
+        }}
+      >
+        <IconButton
+          onClick={() => {
+            SetGroceryShowunique(true);
+          }}
+          aria-label="share"
+          sx={{}}
+        >
+          <LocalGroceryStoreIcon sx={{ color: textColor }} />
+        </IconButton>
+        <span style={{ fontSize: "15px" }}>Unique Grocery List</span>
+      </Box>
+
       {/* Bottom navbar */}
       <Box
         sx={{
@@ -733,9 +1013,9 @@ function MealCalender() {
         {/* <JsonToCsv mealData={mealList} /> */}
         <BUTTON onClick={saveMealPlan}>Change Meal</BUTTON>
         <div>
-     {/* Download File */}
-     <BUTTON onClick={handleDownload}>Download PDF</BUTTON>
-    </div>
+          {/* Download File */}
+          <BUTTON onClick={handleDownload}>Download PDF</BUTTON>
+        </div>
       </Box>
     </Box>
   );
