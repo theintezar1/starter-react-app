@@ -1011,7 +1011,7 @@ function MealCalender() {
       >
         <MuiButton setSelectedIndex={setFamyly} selectedIndex={family} />
         {/* <JsonToCsv mealData={mealList} /> */}
-        <BUTTON onClick={saveMealPlan}>Change Meal</BUTTON>
+        <BUTTON onClick={()=>{saveMealPlan()}}>Change Meal</BUTTON>
         <div>
           {/* Download File */}
           <BUTTON onClick={handleDownload}>Download PDF</BUTTON>
