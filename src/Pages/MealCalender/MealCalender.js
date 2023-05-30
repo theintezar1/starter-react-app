@@ -27,7 +27,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
 import CancelIcon from "@mui/icons-material/Cancel";
-import "./meal.css"
+import "./meal.css";
 
 const BUTTON = styled(Button)({
   backgroundColor: SecondaryColor,
@@ -340,6 +340,19 @@ function MealCalender() {
   );
 
   console.log("unique", uniqueGroceries);
+
+  //groceryCount
+  const groceryCounts = mainIngList
+    .flatMap((items) => items.split(","))
+    .map((item) => item.trim())
+    .reduce((countMap, item) => {
+      countMap[item] = (countMap[item] || 0) + 1;
+      return countMap;
+    }, {});
+
+  console.log("groceryCounts", groceryCounts);
+
+  // console.log("key", Object.values(groceryCounts))
 
   return (
     <Box sx={{ bgcolor: PrimaryColor, minHeight: "100vh" }}>
@@ -913,15 +926,23 @@ function MealCalender() {
             <CancelIcon sx={{ color: textColor }} />
           </IconButton>
         </Box>
-        
-      <div class="list-container" >
-    <ul class="list">
-      {uniqueGroceries.map((item)=>(
-      <li class="list-item">{item}</li>
-      ))}
-    </ul>
-  </div>
 
+        {/* <div class="list-container">
+          <ul class="list">
+            {uniqueGroceries.map((item) => (
+              <li class="list-item">{item}</li>
+            ))}
+          </ul>
+        </div> */}
+        <div class="list-container">
+          <ul class="list">
+            {Object.entries(groceryCounts).map(([name, count]) => (
+              <li class="list-item" key={name}>
+                {name}:&nbsp; &nbsp; {count}
+              </li>
+            ))}
+          </ul>
+        </div>
       </Box>
 
       {/* edit icon */}
@@ -1011,7 +1032,13 @@ function MealCalender() {
       >
         <MuiButton setSelectedIndex={setFamyly} selectedIndex={family} />
         {/* <JsonToCsv mealData={mealList} /> */}
-        <BUTTON onClick={()=>{saveMealPlan()}}>Change Meal</BUTTON>
+        <BUTTON
+          onClick={() => {
+            saveMealPlan();
+          }}
+        >
+          Change Meal
+        </BUTTON>
         <div>
           {/* Download File */}
           <BUTTON onClick={handleDownload}>Download PDF</BUTTON>
